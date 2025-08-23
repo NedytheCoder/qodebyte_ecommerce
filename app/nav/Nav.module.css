@@ -1,0 +1,19 @@
+.check:checked ~ .top {
+    transform: rotate(45deg);
+    transform-origin: top left;
+    width: 48px;
+    left: 1.25rem; /* 20px */
+  }
+  
+  .check:checked ~ .bottom {
+    transform: rotate(-45deg);
+    transform-origin: top left;
+    width: 48px;
+    bottom: -0.25rem; /* -1px */
+    box-shadow: 0 0 10px #495057;
+  }
+  
+  .check:checked ~ .middle {
+    transform: translateX(-5rem); /* -80px ≈ -20px * 4 (but seems too much?) */
+    opacity: 0;
+  }
