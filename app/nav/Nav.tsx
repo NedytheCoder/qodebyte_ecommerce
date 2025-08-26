@@ -10,6 +10,12 @@ interface NavProps {
   onAddToCart: (product: Product) => void;
   onLogin: () => void;
   onRegister: () => void;
+  searchQuery: string;
+  setSearchQuery: (e: string) => void;
+  handleSearch: (e: React.FormEvent) => void;
+  isCategoriesOpen: boolean;
+  setIsCategoriesOpen: (arg0: boolean) => void;
+  handleCategoryClick: (arg0: Category) => void;
 }
 
 const Nav = ({
@@ -18,26 +24,15 @@ const Nav = ({
   onAddToCart,
   onLogin,
   onRegister,
+  searchQuery,
+  setSearchQuery,
+  handleSearch,
+  isCategoriesOpen,
+  setIsCategoriesOpen,
+  handleCategoryClick,
 }: NavProps) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [check, setChecked] = useState(false);
   const router = useRouter();
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      // Navigate to products page with search query
-      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
-    }
-  };
-
-  const handleCategoryClick = (category: Category) => {
-    // Navigate to products page with category filter
-    router.push(`/products?category=${encodeURIComponent(category.name)}`);
-    setIsCategoriesOpen(false);
-  };
 
   // Create a dummy product for cart view
   const createDummyProduct = (): Product => ({
@@ -140,7 +135,6 @@ const Nav = ({
                 Support
               </a>
             </nav>
-
             {/* Search Bar */}
             <div className="flex-1 max-w-lg mx-8">
               <form onSubmit={handleSearch} className="relative">
@@ -159,7 +153,6 @@ const Nav = ({
                 </button>
               </form>
             </div>
-
             {/* Right side actions */}
             <div className="flex items-center space-x-4">
               {/* Cart */}

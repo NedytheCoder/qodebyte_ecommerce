@@ -8,6 +8,7 @@ interface HeroProps {
   featuredProducts: Product[];
   onCategoryClick?: (category: Category) => void;
   onAddToCart: (product: Product) => void;
+  handleCategoryClick: (arg0: Category) => void;
 }
 
 const Hero = ({
@@ -15,13 +16,9 @@ const Hero = ({
   featuredProducts,
   onCategoryClick,
   onAddToCart,
+  handleCategoryClick,
 }: HeroProps) => {
   const router = useRouter();
-
-  const handleCategoryClick = (category: Category) => {
-    // Navigate to products page with category filter
-    router.push(`/products?category=${encodeURIComponent(category.name)}`);
-  };
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gray-50">
