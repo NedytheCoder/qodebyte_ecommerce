@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Product, Category } from "../types";
-import style from "./Nav.module.css";
 
 interface NavProps {
   featuredCategories: Category[];
   cartCount: number;
-  onSearch: (query: string) => void;
-  onCategoryClick: (category: Category) => void;
   onAddToCart: (product: Product) => void;
   onLogin: () => void;
   onRegister: () => void;
@@ -17,8 +15,6 @@ interface NavProps {
 const Nav = ({
   featuredCategories,
   cartCount,
-  onSearch,
-  onCategoryClick,
   onAddToCart,
   onLogin,
   onRegister,
@@ -26,14 +22,35 @@ const Nav = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [check, setChecked] = useState(false);
+  const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      onSearch(searchQuery);
+      // Navigate to products page with search query
+      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery("");
     }
   };
+
+  const handleCategoryClick = (category: Category) => {
+    // Navigate to products page with category filter
+    router.push(`/products?category=${encodeURIComponent(category.name)}`);
+    setIsCategoriesOpen(false);
+  };
+
+  // Create a dummy product for cart view
+  const createDummyProduct = (): Product => ({
+    id: 0,
+    name: "Cart View",
+    price: 0,
+    image: "🛒",
+    category: "Cart",
+    brand: "System",
+    rating: 0,
+    description: "View your cart",
+    inStock: true,
+  });
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -89,10 +106,7 @@ const Nav = ({
                       {featuredCategories.map((category) => (
                         <button
                           key={category.id}
-                          onClick={() => {
-                            onCategoryClick(category);
-                            setIsCategoriesOpen(false);
-                          }}
+                          onClick={() => handleCategoryClick(category)}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600"
                         >
                           <div className="flex items-center">
@@ -135,25 +149,13 @@ const Nav = ({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search products..."
-                  className="w-full px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 pr-20 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <button
                   type="submit"
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-sm font-medium transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
+                  Search
                 </button>
               </form>
             </div>
@@ -162,16 +164,7 @@ const Nav = ({
             <div className="flex items-center space-x-4">
               {/* Cart */}
               <button
-                onClick={() =>
-                  onAddToCart({
-                    id: 0,
-                    name: "Cart View",
-                    price: 0,
-                    image: "🛒",
-                    category: "Cart",
-                    rating: 0,
-                  })
-                }
+                onClick={() => onAddToCart(createDummyProduct())}
                 className="relative p-2 text-gray-700 hover:text-blue-600"
               >
                 <svg
@@ -215,7 +208,7 @@ const Nav = ({
               !check ? "-left-full" : "left-0"
             } p-5 top-16 flex flex-col gap-5 transition-all`}
           >
-            <div className="link">
+            <div className="space-y-3">
               <div className="relative">
                 <button
                   onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
@@ -243,10 +236,7 @@ const Nav = ({
                       {featuredCategories.map((category) => (
                         <button
                           key={category.id}
-                          onClick={() => {
-                            onCategoryClick(category);
-                            setIsCategoriesOpen(false);
-                          }}
+                          onClick={() => handleCategoryClick(category)}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600"
                         >
                           <div className="flex items-center">
@@ -286,38 +276,17 @@ const Nav = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products..."
-                className="w-full px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 pr-20 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <button
                 type="submit"
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-sm font-medium transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
+                Search
               </button>
             </form>
             <button
-              onClick={() =>
-                onAddToCart({
-                  id: 0,
-                  name: "Cart View",
-                  price: 0,
-                  image: "🛒",
-                  category: "Cart",
-                  rating: 0,
-                })
-              }
+              onClick={() => onAddToCart(createDummyProduct())}
               className="relative p-2 text-gray-700 hover:text-blue-600"
             >
               <svg

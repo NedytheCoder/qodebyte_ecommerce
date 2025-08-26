@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Nav from "./nav/Nav";
 import Hero from "./Hero";
 import { Product, Category } from "./types";
@@ -10,90 +11,110 @@ import Footer from "./Footer";
 const featuredCategories: Category[] = [
   {
     id: 1,
-    name: "Laptops",
+    name: "Electronics",
     icon: "💻",
-    description: "High-performance laptops for work and gaming",
+    description: "High-performance laptops, phones, and tech accessories",
   },
   {
     id: 2,
-    name: "Phones",
-    icon: "📱",
-    description: "Latest smartphones with cutting-edge features",
+    name: "Clothing",
+    icon: "👕",
+    description: "Comfortable and stylish clothing for all seasons",
   },
   {
     id: 3,
+    name: "Home & Garden",
+    icon: "🏡",
+    description: "Everything you need for your home and garden",
+  },
+  {
+    id: 4,
     name: "Accessories",
     icon: "🎧",
-    description: "Essential accessories for your devices",
+    description: "Essential accessories to complement your lifestyle",
   },
 ];
 
 const featuredProducts: Product[] = [
   {
     id: 1,
-    name: 'MacBook Pro 16"',
-    price: 2499,
-    image: "💻",
-    category: "Laptops",
-    rating: 4.8,
+    name: "Wireless Bluetooth Headphones",
+    price: 89.99,
+    image: "🎧",
+    category: "Electronics",
+    brand: "SoundMax",
+    rating: 4.5,
+    description: "High-quality wireless headphones with noise cancellation",
+    inStock: true,
   },
   {
     id: 2,
-    name: "iPhone 15 Pro",
-    price: 999,
-    image: "📱",
-    category: "Phones",
-    rating: 4.9,
+    name: "Organic Cotton T-Shirt",
+    price: 24.99,
+    image: "👕",
+    category: "Clothing",
+    brand: "EcoWear",
+    rating: 4.7,
+    description: "Comfortable organic cotton t-shirt",
+    inStock: true,
   },
   {
     id: 3,
-    name: "AirPods Pro",
-    price: 249,
-    image: "🎧",
-    category: "Accessories",
-    rating: 3.7,
+    name: "Garden Tool Set",
+    price: 45.99,
+    image: "🏡",
+    category: "Home & Garden",
+    brand: "HydroLife",
+    rating: 4.3,
+    description: "Complete set of essential garden tools",
+    inStock: true,
   },
   {
     id: 4,
-    name: "Dell XPS 13",
-    price: 1199,
-    image: "💻",
-    category: "Laptops",
-    rating: 4.6,
+    name: "Leather Wallet",
+    price: 49.99,
+    image: "💼",
+    category: "Accessories",
+    brand: "LeatherCraft",
+    rating: 4.8,
+    description: "Genuine leather wallet with RFID protection",
+    inStock: true,
   },
   {
     id: 5,
-    name: "Samsung Galaxy S24",
-    price: 799,
-    image: "📱",
-    category: "Phones",
-    rating: 4.5,
+    name: "Smart Fitness Watch",
+    price: 199.99,
+    image: "⌚",
+    category: "Electronics",
+    brand: "FitTech",
+    rating: 4.3,
+    description: "Advanced fitness tracking with heart rate monitor",
+    inStock: true,
   },
   {
     id: 6,
-    name: "Wireless Charger",
-    price: 49,
-    image: "🔌",
-    category: "Accessories",
-    rating: 4.4,
+    name: "Winter Jacket",
+    price: 149.99,
+    image: "🧥",
+    category: "Clothing",
+    brand: "EcoWear",
+    rating: 4.8,
+    description: "Warm and stylish winter jacket",
+    inStock: true,
   },
 ];
 
 export default function Home() {
   const [cartCount, setCartCount] = useState(0);
+  const router = useRouter();
 
   // Handlers
   const handleSearch = (query: string) => {
     if (query.trim()) {
       // Navigate to search results page
       console.log("Searching for:", query);
-      // router.push(`/search?q=${encodeURIComponent(query)}`);
+      router.push(`/search?q=${encodeURIComponent(query)}`);
     }
-  };
-
-  const handleCategoryClick = (category: Category) => {
-    console.log("Navigating to category:", category.name);
-    // router.push(`/category/${category.id}`);
   };
 
   const handleAddToCart = (product: Product) => {
@@ -104,12 +125,12 @@ export default function Home() {
 
   const handleLogin = () => {
     console.log("Login clicked");
-    // router.push('/login');
+    router.push("/login");
   };
 
   const handleRegister = () => {
     console.log("Register clicked");
-    // router.push('/register');
+    router.push("/register");
   };
 
   return (
@@ -117,8 +138,6 @@ export default function Home() {
       <Nav
         featuredCategories={featuredCategories}
         cartCount={cartCount}
-        onSearch={handleSearch}
-        onCategoryClick={handleCategoryClick}
         onAddToCart={handleAddToCart}
         onLogin={handleLogin}
         onRegister={handleRegister}
@@ -126,7 +145,6 @@ export default function Home() {
       <Hero
         featuredCategories={featuredCategories}
         featuredProducts={featuredProducts}
-        onCategoryClick={handleCategoryClick}
         onAddToCart={handleAddToCart}
       />
       <Footer />

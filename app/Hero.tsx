@@ -1,11 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Product, Category } from "./types";
 
 interface HeroProps {
   featuredCategories: Category[];
   featuredProducts: Product[];
-  onCategoryClick: (category: Category) => void;
+  onCategoryClick?: (category: Category) => void;
   onAddToCart: (product: Product) => void;
 }
 
@@ -15,6 +16,13 @@ const Hero = ({
   onCategoryClick,
   onAddToCart,
 }: HeroProps) => {
+  const router = useRouter();
+
+  const handleCategoryClick = (category: Category) => {
+    // Navigate to products page with category filter
+    router.push(`/products?category=${encodeURIComponent(category.name)}`);
+  };
+
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gray-50">
       {/* Hero Section */}
@@ -28,7 +36,10 @@ const Hero = ({
               Discover amazing deals on the latest tech products
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-              <button className="bg-white text-blue-600 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-gray-100 transition-colors">
+              <button
+                onClick={() => router.push("/products")}
+                className="bg-white text-blue-600 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-gray-100 transition-colors"
+              >
                 Shop Now
               </button>
               <button className="border-2 border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
@@ -49,7 +60,7 @@ const Hero = ({
             {featuredCategories.map((category) => (
               <div
                 key={category.id}
-                onClick={() => onCategoryClick(category)}
+                onClick={() => handleCategoryClick(category)}
                 className="group cursor-pointer bg-gray-50 rounded-xl p-6 sm:p-8 text-center hover:bg-blue-50 hover:shadow-lg transition-all duration-300"
               >
                 <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
