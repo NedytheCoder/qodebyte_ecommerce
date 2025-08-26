@@ -32,7 +32,6 @@ const Nav = ({
   handleCategoryClick,
 }: NavProps) => {
   const [check, setChecked] = useState(false);
-  const router = useRouter();
 
   // Create a dummy product for cart view
   const createDummyProduct = (): Product => ({

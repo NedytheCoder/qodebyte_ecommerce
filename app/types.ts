@@ -1,6 +1,6 @@
 // Common types for the ecommerce application
 export interface Product {
-  id: number;
+  id: number; 
   name: string;
   price: number;
   image: string;

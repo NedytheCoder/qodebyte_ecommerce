@@ -133,12 +133,12 @@ export default function Home() {
 
   const handleLogin = () => {
     console.log("Login clicked");
-    router.push("/login");
+    // router.push("/login");
   };
 
   const handleRegister = () => {
     console.log("Register clicked");
-    router.push("/register");
+    // router.push("/register");
   };
 
   return (
