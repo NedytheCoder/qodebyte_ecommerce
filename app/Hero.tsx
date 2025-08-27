@@ -7,7 +7,6 @@ import Link from "next/link";
 interface HeroProps {
   featuredCategories: Category[];
   featuredProducts: Product[];
-  onCategoryClick?: (category: Category) => void;
   onAddToCart: (product: Product) => void;
   handleCategoryClick: (arg0: Category) => void;
 }
@@ -15,7 +14,6 @@ interface HeroProps {
 const Hero = ({
   featuredCategories,
   featuredProducts,
-  onCategoryClick,
   onAddToCart,
   handleCategoryClick,
 }: HeroProps) => {
