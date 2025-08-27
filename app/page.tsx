@@ -3,7 +3,6 @@
 import Nav from "./nav/Nav";
 import Hero from "./Hero";
 import { Product } from "./types";
-import Footer from "./Footer";
 import { useAppContext } from "./context/AppContext";
 
 export default function Home() {
@@ -111,7 +110,6 @@ export default function Home() {
         onAddToCart={handleAddToCart}
         handleCategoryClick={handleCategoryClick}
       />
-      <Footer />
     </main>
   );
 }

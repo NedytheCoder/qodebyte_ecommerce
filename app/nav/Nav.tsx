@@ -100,7 +100,10 @@ const Nav = ({
                       {featuredCategories.map((category) => (
                         <button
                           key={category.id}
-                          onClick={() => handleCategoryClick(category)}
+                          onClick={() => {
+                            handleCategoryClick(category);
+                            // setChecked(!check);
+                          }}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600"
                         >
                           <div className="flex items-center">
@@ -228,7 +231,10 @@ const Nav = ({
                       {featuredCategories.map((category) => (
                         <button
                           key={category.id}
-                          onClick={() => handleCategoryClick(category)}
+                          onClick={() => {
+                            handleCategoryClick(category);
+                            setChecked(false);
+                          }}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600"
                         >
                           <div className="flex items-center">
@@ -249,20 +255,28 @@ const Nav = ({
                 )}
               </div>
 
-              <a
+              <Link
                 href="#"
+                onClick={() => setChecked(false)}
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Deals
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
+                onClick={() => setChecked(false)}
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Support
-              </a>
+              </Link>
             </div>
-            <form onSubmit={handleSearch} className="relative">
+            <form
+              onSubmit={(e) => {
+                handleSearch(e);
+                setChecked(false);
+              }}
+              className="relative"
+            >
               <input
                 type="text"
                 value={searchQuery}

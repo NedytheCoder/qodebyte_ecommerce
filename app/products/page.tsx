@@ -441,11 +441,11 @@ const ProductsContent = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <div className="lg:w-64 relative lg:block">
-            <div className="bg-blue-300 relative">
+            <div className="relative">
               <div
-                className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
-                  showFilters ? "left-0" : "-left-[110%]"
-                } transition-all lg:left-auto lg:top-auto xl:fixed xl:w-[18%]`}
+                className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
+                  showFilters ? "left-0 " : "-left-[110%]"
+                } transition-all lg:static lg:w-full lg:left-auto lg:top-auto`}
               >
                 {/* className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1 top-9  ${
                   showFilters ? "left-0" : "-left-[110%]"
@@ -607,8 +607,8 @@ const ProductsContent = () => {
           <div className="flex-1">
             {/* Sort and Results Count */}
             <div className="flex items-center justify-between mb-6 flex-col gap-5 lg:flex-row">
-              <div className="flex items-center space-x-4 ">
-                <p className="text-sm text-gray-700">
+              <div className="flex items-center space-x-4 flex-col lg:flex-row w-full">
+                <p className="text-sm text-gray-700 mb-2 font-bold">
                   {filters.searchQuery
                     ? `Search results for "${filters.searchQuery}" - ${filteredProducts.length} of ${mockProducts.length} products`
                     : `Showing ${filteredProducts.length} of ${mockProducts.length} products`}
@@ -617,7 +617,7 @@ const ProductsContent = () => {
                 {(filters.category.length > 0 ||
                   filters.brand.length > 0 ||
                   filters.searchQuery) && (
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 flex-wrap gap-2">
                     <span className="text-sm text-gray-500">
                       Active filters:
                     </span>
@@ -663,8 +663,8 @@ const ProductsContent = () => {
                   </div>
                 )}
               </div>
-              <div className="flex items-center space-x-4">
-                <label className="text-sm font-medium text-gray-700">
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium text-gray-700 w-full">
                   Sort by:
                 </label>
                 <select
