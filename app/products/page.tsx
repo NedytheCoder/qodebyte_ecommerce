@@ -441,7 +441,7 @@ const ProductsContent = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <div className="lg:w-64 relative lg:block">
-            <div className="relative">
+            <div className="bg-blue-300 relative">
               <div
                 className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
                   showFilters ? "left-0 " : "-left-[110%]"
