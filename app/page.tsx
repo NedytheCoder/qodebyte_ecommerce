@@ -1,44 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Nav from "./nav/Nav";
 import Hero from "./Hero";
-import { Product, Category } from "./types";
+import { Product } from "./types";
 import Footer from "./Footer";
+import { useAppContext } from "./context/AppContext";
 
 export default function Home() {
-  const [cartCount, setCartCount] = useState(0);
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const router = useRouter();
-  // Mock data
-  const featuredCategories: Category[] = [
-    {
-      id: 1,
-      name: "Electronics",
-      icon: "💻",
-      description: "High-performance laptops, phones, and tech accessories",
-    },
-    {
-      id: 2,
-      name: "Clothing",
-      icon: "👕",
-      description: "Comfortable and stylish clothing for all seasons",
-    },
-    {
-      id: 3,
-      name: "Home & Garden",
-      icon: "🏡",
-      description: "Everything you need for your home and garden",
-    },
-    {
-      id: 4,
-      name: "Accessories",
-      icon: "🎧",
-      description: "Essential accessories to complement your lifestyle",
-    },
-  ];
+  const {
+    cartCount,
+    searchQuery,
+    setSearchQuery,
+    isCategoriesOpen,
+    setIsCategoriesOpen,
+    featuredCategories,
+    handleSearch,
+    handleAddToCart,
+    handleLogin,
+    handleRegister,
+    handleCategoryClick,
+  } = useAppContext();
 
   const featuredProducts: Product[] = [
     {
@@ -108,38 +89,6 @@ export default function Home() {
       inStock: true,
     },
   ];
-
-  const handleCategoryClick = (category: Category) => {
-    // Navigate to products page with category filter
-    router.push(`/products?category=${encodeURIComponent(category.name)}`);
-    setIsCategoriesOpen(false);
-  };
-
-  // Handlers
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      // Navigate to products page with search query
-      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
-    }
-  };
-
-  const handleAddToCart = (product: Product) => {
-    setCartCount((prev) => prev + 1);
-    console.log("Added to cart:", product.name);
-    // Add to cart logic here
-  };
-
-  const handleLogin = () => {
-    console.log("Login clicked");
-    // router.push("/login");
-  };
-
-  const handleRegister = () => {
-    console.log("Register clicked");
-    // router.push("/register");
-  };
 
   return (
     <main className="min-h-screen">

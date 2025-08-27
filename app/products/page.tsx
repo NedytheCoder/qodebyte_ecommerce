@@ -1,43 +1,25 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import {
-  Product,
-  FilterOptions,
-  SortOption,
-  CartItem,
-  Category,
-} from "../types";
+import { useState, useEffect, useMemo, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { Product, FilterOptions, SortOption, CartItem } from "../types";
 import Nav from "../nav/Nav";
+import { useAppContext } from "../context/AppContext";
 
-interface NavProps {
-  featuredCategories: Category[];
-  cartCount: number;
-  onAddToCart: (product: Product) => void;
-  onLogin: () => void;
-  onRegister: () => void;
-  searchQuery: string;
-  setSearchQuery: (e: string) => void;
-  handleSearch: (e: React.FormEvent) => void;
-  isCategoriesOpen: boolean;
-  setIsCategoriesOpen: (arg0: boolean) => void;
-  handleCategoryClick: (arg0: Category) => void;
-}
-
-const page = ({
-  featuredCategories,
-  cartCount,
-  onAddToCart,
-  onLogin,
-  onRegister,
-  searchQuery,
-  setSearchQuery,
-  handleSearch,
-  isCategoriesOpen,
-  setIsCategoriesOpen,
-  handleCategoryClick,
-}: NavProps) => {
+const ProductsContent = () => {
+  const {
+    featuredCategories,
+    cartCount,
+    handleAddToCart,
+    handleLogin,
+    handleRegister,
+    searchQuery,
+    setSearchQuery,
+    handleSearch,
+    isCategoriesOpen,
+    setIsCategoriesOpen,
+    handleCategoryClick,
+  } = useAppContext();
   // Mock data for demonstration
   const mockProducts: Product[] = [
     // Electronics Category
@@ -253,6 +235,7 @@ const page = ({
   ];
 
   const [products, setProducts] = useState<Product[]>(mockProducts);
+  const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(mockProducts);
@@ -267,10 +250,18 @@ const page = ({
   });
 
   const [sortBy, setSortBy] = useState<string>("newest");
+  const [isClient, setIsClient] = useState(false);
 
   const searchParams = useSearchParams();
 
+  // Ensure hydration safety
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return; // Only run on client side
+    
     const categoryParam = searchParams.get("category");
     const brandParam = searchParams.get("brand");
     const priceMinParam = searchParams.get("priceMin");
@@ -307,7 +298,7 @@ const page = ({
         searchQuery: searchQueryParam,
       }));
     }
-  }, [searchParams]);
+  }, [searchParams, isClient]);
 
   // Filter and sort products
   const applyFiltersAndSort = useMemo(() => {
@@ -423,9 +414,9 @@ const page = ({
       <Nav
         featuredCategories={featuredCategories}
         cartCount={cartCount}
-        onAddToCart={onAddToCart}
-        onLogin={onLogin}
-        onRegister={onRegister}
+        onAddToCart={handleAddToCart}
+        onLogin={handleLogin}
+        onRegister={handleRegister}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleSearch={handleSearch}
@@ -434,153 +425,172 @@ const page = ({
         handleCategoryClick={handleCategoryClick}
       />
 
+      <div
+        className="fixed bg-blue-500 top-20 z-2 p-2 text-white text-sm rounded-br-full rounded-tr-full lg:hidden"
+        onClick={() => setShowFilters(!showFilters)}
+      >
+        {showFilters ? "Hide" : "Show"} Filters
+      </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
-          <div className="lg:w-64">
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
-                <button
-                  onClick={clearFilters}
-                  className="text-sm text-blue-600 hover:text-blue-800"
-                >
-                  Clear all
-                </button>
-              </div>
-              <p className="text-xs text-gray-500 mb-4">
-                Select categories and brands to filter products. No selection
-                shows all products.
-              </p>
-
-              {/* Category Filter */}
-              <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-900 mb-3">
-                  Category
-                </h4>
-                <div className="space-y-2">
-                  {categories.map((category) => {
-                    const productCount = products.filter(
-                      (p) => p.category === category
-                    ).length;
-
-                    return (
-                      <label
-                        key={category}
-                        className="flex items-center justify-between"
-                      >
-                        <div className="flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={filters.category.includes(category)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                handleFilterChange("category", [
-                                  ...filters.category,
-                                  category,
-                                ]);
-                              } else {
-                                handleFilterChange(
-                                  "category",
-                                  filters.category.filter((c) => c !== category)
-                                );
-                              }
-                            }}
-                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">
-                            {category}
-                          </span>
-                        </div>
-                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                          {productCount}
-                        </span>
-                      </label>
-                    );
-                  })}
+          <div className="lg:w-64 relative lg:block">
+            <div className="bg-blue-300 relative">
+              <div
+                className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
+                  showFilters ? "left-0" : "-left-[110%]"
+                } transition-all lg:left-auto lg:top-auto xl:fixed xl:w-[18%]`}
+              >
+                {/* className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1 top-9  ${
+                  showFilters ? "left-0" : "-left-[110%]"
+                } transition-all lg:fixed lg:w-[18%] lg:left-[0%]`} */}
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Filters
+                  </h3>
+                  <button
+                    onClick={clearFilters}
+                    className="text-sm text-blue-600 hover:text-blue-800"
+                  >
+                    Clear all
+                  </button>
                 </div>
-              </div>
+                <p className="text-xs text-gray-500 mb-4">
+                  Select categories and brands to filter products. No selection
+                  shows all products.
+                </p>
 
-              {/* Brand Filter */}
-              <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-900 mb-3">
-                  Brand
-                </h4>
-                <div className="space-y-2">
-                  {brands.map((brand) => {
-                    const productCount = products.filter(
-                      (p) => p.brand === brand
-                    ).length;
+                {/* Category Filter */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-900 mb-3">
+                    Category
+                  </h4>
+                  <div className="space-y-2">
+                    {categories.map((category) => {
+                      const productCount = products.filter(
+                        (p) => p.category === category
+                      ).length;
 
-                    return (
-                      <label
-                        key={brand}
-                        className="flex items-center justify-between"
-                      >
-                        <div className="flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={filters.brand.includes(brand)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                handleFilterChange("brand", [
-                                  ...filters.brand,
-                                  brand,
-                                ]);
-                              } else {
-                                handleFilterChange(
-                                  "brand",
-                                  filters.brand.filter((b) => b !== brand)
-                                );
-                              }
-                            }}
-                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">
-                            {brand}
+                      return (
+                        <label
+                          key={category}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={filters.category.includes(category)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  handleFilterChange("category", [
+                                    ...filters.category,
+                                    category,
+                                  ]);
+                                } else {
+                                  handleFilterChange(
+                                    "category",
+                                    filters.category.filter(
+                                      (c) => c !== category
+                                    )
+                                  );
+                                }
+                              }}
+                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <span className="ml-2 text-sm text-gray-700">
+                              {category}
+                            </span>
+                          </div>
+                          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                            {productCount}
                           </span>
-                        </div>
-                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                          {productCount}
-                        </span>
-                      </label>
-                    );
-                  })}
+                        </label>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
 
-              {/* Price Range Filter */}
-              <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-900 mb-3">
-                  Price Range
-                </h4>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="number"
-                      placeholder="Min"
-                      value={filters.priceRange[0]}
-                      onChange={(e) =>
-                        handleFilterChange("priceRange", [
-                          parseInt(e.target.value) || 0,
-                          filters.priceRange[1],
-                        ])
-                      }
-                      className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
-                    />
-                    <span className="text-gray-500">-</span>
-                    <input
-                      type="number"
-                      placeholder="Max"
-                      value={filters.priceRange[1]}
-                      onChange={(e) =>
-                        handleFilterChange("priceRange", [
-                          filters.priceRange[0],
-                          parseInt(e.target.value) || 2500,
-                        ])
-                      }
-                      className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
-                    />
+                {/* Brand Filter */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-900 mb-3">
+                    Brand
+                  </h4>
+                  <div className="space-y-2">
+                    {brands.map((brand) => {
+                      const productCount = products.filter(
+                        (p) => p.brand === brand
+                      ).length;
+
+                      return (
+                        <label
+                          key={brand}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={filters.brand.includes(brand)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  handleFilterChange("brand", [
+                                    ...filters.brand,
+                                    brand,
+                                  ]);
+                                } else {
+                                  handleFilterChange(
+                                    "brand",
+                                    filters.brand.filter((b) => b !== brand)
+                                  );
+                                }
+                              }}
+                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <span className="ml-2 text-sm text-gray-700">
+                              {brand}
+                            </span>
+                          </div>
+                          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                            {productCount}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Price Range Filter */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-900 mb-3">
+                    Price Range
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="number"
+                        placeholder="Min"
+                        value={filters.priceRange[0]}
+                        onChange={(e) =>
+                          handleFilterChange("priceRange", [
+                            parseInt(e.target.value) || 0,
+                            filters.priceRange[1],
+                          ])
+                        }
+                        className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                      />
+                      <span className="text-gray-500">-</span>
+                      <input
+                        type="number"
+                        placeholder="Max"
+                        value={filters.priceRange[1]}
+                        onChange={(e) =>
+                          handleFilterChange("priceRange", [
+                            filters.priceRange[0],
+                            parseInt(e.target.value) || 2500,
+                          ])
+                        }
+                        className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -590,8 +600,8 @@ const page = ({
           {/* Main Content */}
           <div className="flex-1">
             {/* Sort and Results Count */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-4">
+            <div className="flex items-center justify-between mb-6 flex-col gap-5 lg:flex-row">
+              <div className="flex items-center space-x-4 ">
                 <p className="text-sm text-gray-700">
                   {filters.searchQuery
                     ? `Search results for "${filters.searchQuery}" - ${filteredProducts.length} of ${products.length} products`
@@ -795,6 +805,19 @@ const page = ({
         </div>
       </div>
     </div>
+  );
+};
+
+const page = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading products...</p>
+      </div>
+    </div>}>
+      <ProductsContent />
+    </Suspense>
   );
 };
 
