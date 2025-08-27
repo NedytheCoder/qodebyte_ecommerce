@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Product, Category } from "./types";
+import Link from "next/link";
 
 interface HeroProps {
   featuredCategories: Category[];
@@ -37,10 +38,10 @@ const Hero = ({
                 onClick={() => router.push("/products")}
                 className="bg-white text-blue-600 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-gray-100 transition-colors"
               >
-                Shop Now
+                <Link href="#">Shop Now</Link>
               </button>
               <button className="border-2 border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
-                Learn More
+                <Link href="#">Learn More</Link>
               </button>
             </div>
           </div>

@@ -21,195 +21,198 @@ const ProductsContent = () => {
     handleCategoryClick,
   } = useAppContext();
   // Mock data for demonstration
-  const mockProducts: Product[] = [
-    // Electronics Category
-    {
-      id: 1,
-      name: "Wireless Bluetooth Headphones",
-      price: 89.99,
-      originalPrice: 129.99,
-      discount: 31,
-      image: "/headphones.jpg",
-      category: "Electronics",
-      brand: "SoundMax",
-      rating: 4.5,
-      description: "High-quality wireless headphones with noise cancellation",
-      inStock: true,
-    },
-    {
-      id: 2,
-      name: "Smart Fitness Watch",
-      price: 199.99,
-      image: "/smartwatch.jpg",
-      category: "Electronics",
-      brand: "FitTech",
-      rating: 4.3,
-      description: "Advanced fitness tracking with heart rate monitor",
-      inStock: true,
-    },
-    {
-      id: 3,
-      name: "Wireless Charging Pad",
-      price: 34.99,
-      image: "/charger.jpg",
-      category: "Electronics",
-      brand: "PowerTech",
-      rating: 4.2,
-      description: "Fast wireless charging pad for smartphones",
-      inStock: true,
-    },
-    {
-      id: 4,
-      name: "Bluetooth Speaker",
-      price: 79.99,
-      image: "/speaker.jpg",
-      category: "Electronics",
-      brand: "SoundMax",
-      rating: 4.4,
-      description: "Portable waterproof bluetooth speaker",
-      inStock: true,
-    },
-    {
-      id: 5,
-      name: "Gaming Mouse",
-      price: 59.99,
-      image: "/mouse.jpg",
-      category: "Electronics",
-      brand: "PowerTech",
-      rating: 4.6,
-      description: "High-precision gaming mouse with RGB lighting",
-      inStock: true,
-    },
+  const mockProducts: Product[] = useMemo(
+    () => [
+      // Electronics Category
+      {
+        id: 1,
+        name: "Wireless Bluetooth Headphones",
+        price: 89.99,
+        originalPrice: 129.99,
+        discount: 31,
+        image: "/headphones.jpg",
+        category: "Electronics",
+        brand: "SoundMax",
+        rating: 4.5,
+        description: "High-quality wireless headphones with noise cancellation",
+        inStock: true,
+      },
+      {
+        id: 2,
+        name: "Smart Fitness Watch",
+        price: 199.99,
+        image: "/smartwatch.jpg",
+        category: "Electronics",
+        brand: "FitTech",
+        rating: 4.3,
+        description: "Advanced fitness tracking with heart rate monitor",
+        inStock: true,
+      },
+      {
+        id: 3,
+        name: "Wireless Charging Pad",
+        price: 34.99,
+        image: "/charger.jpg",
+        category: "Electronics",
+        brand: "PowerTech",
+        rating: 4.2,
+        description: "Fast wireless charging pad for smartphones",
+        inStock: true,
+      },
+      {
+        id: 4,
+        name: "Bluetooth Speaker",
+        price: 79.99,
+        image: "/speaker.jpg",
+        category: "Electronics",
+        brand: "SoundMax",
+        rating: 4.4,
+        description: "Portable waterproof bluetooth speaker",
+        inStock: true,
+      },
+      {
+        id: 5,
+        name: "Gaming Mouse",
+        price: 59.99,
+        image: "/mouse.jpg",
+        category: "Electronics",
+        brand: "PowerTech",
+        rating: 4.6,
+        description: "High-precision gaming mouse with RGB lighting",
+        inStock: true,
+      },
 
-    // Clothing Category
-    {
-      id: 6,
-      name: "Organic Cotton T-Shirt",
-      price: 24.99,
-      image: "/tshirt.jpg",
-      category: "Clothing",
-      brand: "EcoWear",
-      rating: 4.7,
-      description: "Comfortable organic cotton t-shirt",
-      inStock: true,
-    },
-    {
-      id: 7,
-      name: "Denim Jeans",
-      price: 89.99,
-      image: "/jeans.jpg",
-      category: "Clothing",
-      brand: "EcoWear",
-      rating: 4.5,
-      description: "Classic fit denim jeans",
-      inStock: true,
-    },
-    {
-      id: 8,
-      name: "Winter Jacket",
-      price: 149.99,
-      image: "/jacket.jpg",
-      category: "Clothing",
-      brand: "EcoWear",
-      rating: 4.8,
-      description: "Warm and stylish winter jacket",
-      inStock: true,
-    },
+      // Clothing Category
+      {
+        id: 6,
+        name: "Organic Cotton T-Shirt",
+        price: 24.99,
+        image: "/tshirt.jpg",
+        category: "Clothing",
+        brand: "EcoWear",
+        rating: 4.7,
+        description: "Comfortable organic cotton t-shirt",
+        inStock: true,
+      },
+      {
+        id: 7,
+        name: "Denim Jeans",
+        price: 89.99,
+        image: "/jeans.jpg",
+        category: "Clothing",
+        brand: "EcoWear",
+        rating: 4.5,
+        description: "Classic fit denim jeans",
+        inStock: true,
+      },
+      {
+        id: 8,
+        name: "Winter Jacket",
+        price: 149.99,
+        image: "/jacket.jpg",
+        category: "Clothing",
+        brand: "EcoWear",
+        rating: 4.8,
+        description: "Warm and stylish winter jacket",
+        inStock: true,
+      },
 
-    // Home & Garden Category
-    {
-      id: 9,
-      name: "Stainless Steel Water Bottle",
-      price: 19.99,
-      image: "/waterbottle.jpg",
-      category: "Home & Garden",
-      brand: "HydroLife",
-      rating: 4.6,
-      description: "Insulated water bottle keeps drinks cold for 24 hours",
-      inStock: false,
-    },
-    {
-      id: 10,
-      name: "Garden Tool Set",
-      price: 45.99,
-      image: "/tools.jpg",
-      category: "Home & Garden",
-      brand: "HydroLife",
-      rating: 4.3,
-      description: "Complete set of essential garden tools",
-      inStock: true,
-    },
-    {
-      id: 11,
-      name: "Indoor Plant Pot",
-      price: 29.99,
-      image: "/pot.jpg",
-      category: "Home & Garden",
-      brand: "HydroLife",
-      rating: 4.1,
-      description: "Beautiful ceramic plant pot for indoor plants",
-      inStock: true,
-    },
+      // Home & Garden Category
+      {
+        id: 9,
+        name: "Stainless Steel Water Bottle",
+        price: 19.99,
+        image: "/waterbottle.jpg",
+        category: "Home & Garden",
+        brand: "HydroLife",
+        rating: 4.6,
+        description: "Insulated water bottle keeps drinks cold for 24 hours",
+        inStock: false,
+      },
+      {
+        id: 10,
+        name: "Garden Tool Set",
+        price: 45.99,
+        image: "/tools.jpg",
+        category: "Home & Garden",
+        brand: "HydroLife",
+        rating: 4.3,
+        description: "Complete set of essential garden tools",
+        inStock: true,
+      },
+      {
+        id: 11,
+        name: "Indoor Plant Pot",
+        price: 29.99,
+        image: "/pot.jpg",
+        category: "Home & Garden",
+        brand: "HydroLife",
+        rating: 4.1,
+        description: "Beautiful ceramic plant pot for indoor plants",
+        inStock: true,
+      },
 
-    // Accessories Category
-    {
-      id: 12,
-      name: "Leather Wallet",
-      price: 49.99,
-      image: "/wallet.jpg",
-      category: "Accessories",
-      brand: "LeatherCraft",
-      rating: 4.8,
-      description: "Genuine leather wallet with RFID protection",
-      inStock: true,
-    },
-    {
-      id: 13,
-      name: "Sunglasses",
-      price: 129.99,
-      image: "/sunglasses.jpg",
-      category: "Accessories",
-      brand: "LeatherCraft",
-      rating: 4.7,
-      description: "Premium polarized sunglasses",
-      inStock: true,
-    },
-    {
-      id: 14,
-      name: "Watch Band",
-      price: 34.99,
-      image: "/watchband.jpg",
-      category: "Accessories",
-      brand: "LeatherCraft",
-      rating: 4.4,
-      description: "Replaceable leather watch band",
-      inStock: true,
-    },
+      // Accessories Category
+      {
+        id: 12,
+        name: "Leather Wallet",
+        price: 49.99,
+        image: "/wallet.jpg",
+        category: "Accessories",
+        brand: "LeatherCraft",
+        rating: 4.8,
+        description: "Genuine leather wallet with RFID protection",
+        inStock: true,
+      },
+      {
+        id: 13,
+        name: "Sunglasses",
+        price: 129.99,
+        image: "/sunglasses.jpg",
+        category: "Accessories",
+        brand: "LeatherCraft",
+        rating: 4.7,
+        description: "Premium polarized sunglasses",
+        inStock: true,
+      },
+      {
+        id: 14,
+        name: "Watch Band",
+        price: 34.99,
+        image: "/watchband.jpg",
+        category: "Accessories",
+        brand: "LeatherCraft",
+        rating: 4.4,
+        description: "Replaceable leather watch band",
+        inStock: true,
+      },
 
-    // Additional products to cover all brands
-    {
-      id: 15,
-      name: "Smart Home Hub",
-      price: 199.99,
-      image: "/hub.jpg",
-      category: "Electronics",
-      brand: "FitTech",
-      rating: 4.2,
-      description: "Central hub for smart home automation",
-      inStock: true,
-    },
-    {
-      id: 16,
-      name: "USB-C Cable",
-      price: 12.99,
-      image: "/cable.jpg",
-      category: "Electronics",
-      brand: "PowerTech",
-      rating: 4.0,
-      description: "High-speed USB-C charging cable",
-      inStock: true,
-    },
-  ];
+      // Additional products to cover all brands
+      {
+        id: 15,
+        name: "Smart Home Hub",
+        price: 199.99,
+        image: "/hub.jpg",
+        category: "Electronics",
+        brand: "FitTech",
+        rating: 4.2,
+        description: "Central hub for smart home automation",
+        inStock: true,
+      },
+      {
+        id: 16,
+        name: "USB-C Cable",
+        price: 12.99,
+        image: "/cable.jpg",
+        category: "Electronics",
+        brand: "PowerTech",
+        rating: 4.0,
+        description: "High-speed USB-C charging cable",
+        inStock: true,
+      },
+    ],
+    []
+  );
 
   const categories = [
     "Electronics",
@@ -234,7 +237,7 @@ const ProductsContent = () => {
     { label: "Rating: High to Low", value: "rating-desc" },
   ];
 
-  const [products, setProducts] = useState<Product[]>(mockProducts);
+  // const [products, setProducts] = useState<Product[]>(mockProducts);
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const [filteredProducts, setFilteredProducts] =
@@ -261,7 +264,7 @@ const ProductsContent = () => {
 
   useEffect(() => {
     if (!isClient) return; // Only run on client side
-    
+
     const categoryParam = searchParams.get("category");
     const brandParam = searchParams.get("brand");
     const priceMinParam = searchParams.get("priceMin");
@@ -302,7 +305,7 @@ const ProductsContent = () => {
 
   // Filter and sort products
   const applyFiltersAndSort = useMemo(() => {
-    let filtered = products.filter((product) => {
+    const filtered = mockProducts.filter((product) => {
       // Category filter - if no categories selected, show all
       if (filters.category.length > 0) {
         if (!filters.category.includes(product.category)) return false;
@@ -362,7 +365,7 @@ const ProductsContent = () => {
     }
 
     return filtered;
-  }, [products, filters, sortBy]);
+  }, [mockProducts, filters, sortBy]);
 
   useEffect(() => {
     setFilteredProducts(applyFiltersAndSort);
@@ -387,10 +390,13 @@ const ProductsContent = () => {
   };
 
   // Get cart total count
-  const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
+  // const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   // Handle filter changes
-  const handleFilterChange = (filterType: keyof FilterOptions, value: any) => {
+  const handleFilterChange = (
+    filterType: keyof FilterOptions,
+    value: string | string[] | number[]
+  ) => {
     setFilters((prev) => ({
       ...prev,
       [filterType]: value,
@@ -467,7 +473,7 @@ const ProductsContent = () => {
                   </h4>
                   <div className="space-y-2">
                     {categories.map((category) => {
-                      const productCount = products.filter(
+                      const productCount = mockProducts.filter(
                         (p) => p.category === category
                       ).length;
 
@@ -517,7 +523,7 @@ const ProductsContent = () => {
                   </h4>
                   <div className="space-y-2">
                     {brands.map((brand) => {
-                      const productCount = products.filter(
+                      const productCount = mockProducts.filter(
                         (p) => p.brand === brand
                       ).length;
 
@@ -604,8 +610,8 @@ const ProductsContent = () => {
               <div className="flex items-center space-x-4 ">
                 <p className="text-sm text-gray-700">
                   {filters.searchQuery
-                    ? `Search results for "${filters.searchQuery}" - ${filteredProducts.length} of ${products.length} products`
-                    : `Showing ${filteredProducts.length} of ${products.length} products`}
+                    ? `Search results for "${filters.searchQuery}" - ${filteredProducts.length} of ${mockProducts.length} products`
+                    : `Showing ${filteredProducts.length} of ${mockProducts.length} products`}
                 </p>
                 {/* Show active filters */}
                 {(filters.category.length > 0 ||
@@ -633,7 +639,7 @@ const ProductsContent = () => {
                     ))}
                     {filters.searchQuery && (
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                        "{filters.searchQuery}"
+                        &quot;{filters.searchQuery}&quot;
                         <button
                           onClick={() => handleFilterChange("searchQuery", "")}
                           className="ml-1 hover:bg-purple-200 rounded-full p-0.5"
@@ -810,12 +816,16 @@ const ProductsContent = () => {
 
 const page = () => {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Loading products...</p>
-      </div>
-    </div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading products...</p>
+          </div>
+        </div>
+      }
+    >
       <ProductsContent />
     </Suspense>
   );

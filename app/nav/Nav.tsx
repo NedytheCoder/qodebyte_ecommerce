@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Product, Category } from "../types";
+import Link from "next/link";
 
 interface NavProps {
   featuredCategories: Category[];
@@ -121,18 +121,18 @@ const Nav = ({
                 )}
               </div>
 
-              <a
+              <Link
                 href="#"
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Deals
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Support
-              </a>
+              </Link>
             </nav>
             {/* Search Bar */}
             <div className="flex-1 max-w-lg mx-8">
