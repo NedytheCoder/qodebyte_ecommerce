@@ -252,6 +252,13 @@ const ProductsContent = () => {
     searchQuery: "",
   });
 
+  const [pendingFilters, setPendingFilters] = useState<FilterOptions>({
+    category: [],
+    brand: [],
+    priceRange: [0, 2500],
+    searchQuery: "",
+  });
+
   const [sortBy, setSortBy] = useState<string>("newest");
   const [isClient, setIsClient] = useState(false);
 
@@ -272,34 +279,50 @@ const ProductsContent = () => {
     const searchQueryParam = searchParams.get("search");
 
     if (categoryParam) {
-      setFilters((prev) => ({
-        ...prev,
+      const newFilters = {
+        ...filters,
         category: [categoryParam],
-      }));
+      };
+      setFilters(newFilters);
+      setPendingFilters(newFilters);
     }
     if (brandParam) {
-      setFilters((prev) => ({
-        ...prev,
+      const newFilters = {
+        ...filters,
         brand: [brandParam],
-      }));
+      };
+      setFilters(newFilters);
+      setPendingFilters(newFilters);
     }
     if (priceMinParam) {
-      setFilters((prev) => ({
-        ...prev,
-        priceRange: [parseInt(priceMinParam) || 0, prev.priceRange[1]],
-      }));
+      const newFilters = {
+        ...filters,
+        priceRange: [parseInt(priceMinParam) || 0, filters.priceRange[1]] as [
+          number,
+          number
+        ],
+      };
+      setFilters(newFilters);
+      setPendingFilters(newFilters);
     }
     if (priceMaxParam) {
-      setFilters((prev) => ({
-        ...prev,
-        priceRange: [prev.priceRange[0], parseInt(priceMaxParam) || 2500],
-      }));
+      const newFilters = {
+        ...filters,
+        priceRange: [
+          filters.priceRange[0],
+          parseInt(priceMaxParam) || 2500,
+        ] as [number, number],
+      };
+      setFilters(newFilters);
+      setPendingFilters(newFilters);
     }
     if (searchQueryParam) {
-      setFilters((prev) => ({
-        ...prev,
+      const newFilters = {
+        ...filters,
         searchQuery: searchQueryParam,
-      }));
+      };
+      setFilters(newFilters);
+      setPendingFilters(newFilters);
     }
   }, [searchParams, isClient]);
 
@@ -392,25 +415,36 @@ const ProductsContent = () => {
   // Get cart total count
   // const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
-  // Handle filter changes
-  const handleFilterChange = (
+  // Handle pending filter changes
+  const handlePendingFilterChange = (
     filterType: keyof FilterOptions,
     value: string | string[] | number[]
   ) => {
-    setFilters((prev) => ({
+    setPendingFilters((prev) => ({
       ...prev,
       [filterType]: value,
     }));
   };
 
+  // Apply pending filters
+  const applyFilters = () => {
+    setFilters(pendingFilters);
+  };
+
+  // Check if there are pending changes
+  const hasPendingChanges =
+    JSON.stringify(filters) !== JSON.stringify(pendingFilters);
+
   // Clear all filters
   const clearFilters = () => {
-    setFilters({
+    const clearedFilters: FilterOptions = {
       category: [],
       brand: [],
-      priceRange: [0, 2500],
+      priceRange: [0, 2500] as [number, number],
       searchQuery: "",
-    });
+    };
+    setFilters(clearedFilters);
+    setPendingFilters(clearedFilters);
     setSortBy("newest");
   };
 
@@ -441,7 +475,7 @@ const ProductsContent = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <div className="lg:w-64 relative lg:block">
-            <div className="bg-blue-300 relative">
+            <div className="relative">
               <div
                 className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
                   showFilters ? "left-0 " : "-left-[110%]"
@@ -485,17 +519,19 @@ const ProductsContent = () => {
                           <div className="flex items-center">
                             <input
                               type="checkbox"
-                              checked={filters.category.includes(category)}
+                              checked={pendingFilters.category.includes(
+                                category
+                              )}
                               onChange={(e) => {
                                 if (e.target.checked) {
-                                  handleFilterChange("category", [
-                                    ...filters.category,
+                                  handlePendingFilterChange("category", [
+                                    ...pendingFilters.category,
                                     category,
                                   ]);
                                 } else {
-                                  handleFilterChange(
+                                  handlePendingFilterChange(
                                     "category",
-                                    filters.category.filter(
+                                    pendingFilters.category.filter(
                                       (c) => c !== category
                                     )
                                   );
@@ -535,17 +571,19 @@ const ProductsContent = () => {
                           <div className="flex items-center">
                             <input
                               type="checkbox"
-                              checked={filters.brand.includes(brand)}
+                              checked={pendingFilters.brand.includes(brand)}
                               onChange={(e) => {
                                 if (e.target.checked) {
-                                  handleFilterChange("brand", [
-                                    ...filters.brand,
+                                  handlePendingFilterChange("brand", [
+                                    ...pendingFilters.brand,
                                     brand,
                                   ]);
                                 } else {
-                                  handleFilterChange(
+                                  handlePendingFilterChange(
                                     "brand",
-                                    filters.brand.filter((b) => b !== brand)
+                                    pendingFilters.brand.filter(
+                                      (b) => b !== brand
+                                    )
                                   );
                                 }
                               }}
@@ -574,12 +612,12 @@ const ProductsContent = () => {
                       <input
                         type="number"
                         placeholder="Min"
-                        value={filters.priceRange[0]}
+                        value={pendingFilters.priceRange[0]}
                         onChange={(e) =>
-                          handleFilterChange("priceRange", [
+                          handlePendingFilterChange("priceRange", [
                             parseInt(e.target.value) || 0,
-                            filters.priceRange[1],
-                          ])
+                            pendingFilters.priceRange[1],
+                          ] as [number, number])
                         }
                         className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
                       />
@@ -587,17 +625,40 @@ const ProductsContent = () => {
                       <input
                         type="number"
                         placeholder="Max"
-                        value={filters.priceRange[1]}
+                        value={pendingFilters.priceRange[1]}
                         onChange={(e) =>
-                          handleFilterChange("priceRange", [
-                            filters.priceRange[0],
+                          handlePendingFilterChange("priceRange", [
+                            pendingFilters.priceRange[0],
                             parseInt(e.target.value) || 2500,
-                          ])
+                          ] as [number, number])
                         }
                         className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
                       />
                     </div>
                   </div>
+                </div>
+
+                {/* Apply Filters Button */}
+                <div className="mt-6 pt-4 border-t border-gray-200">
+                  <button
+                    onClick={() => {
+                      applyFilters();
+                      setShowFilters(false);
+                    }}
+                    disabled={!hasPendingChanges}
+                    className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
+                      hasPendingChanges
+                        ? "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
+                  >
+                    Apply Filters
+                    {hasPendingChanges && (
+                      <span className="ml-2 inline-flex items-center justify-center w-4 h-4 text-xs bg-blue-500 text-white rounded-full">
+                        !
+                      </span>
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
@@ -641,7 +702,9 @@ const ProductsContent = () => {
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                         &quot;{filters.searchQuery}&quot;
                         <button
-                          onClick={() => handleFilterChange("searchQuery", "")}
+                          onClick={() =>
+                            handlePendingFilterChange("searchQuery", "")
+                          }
                           className="ml-1 hover:bg-purple-200 rounded-full p-0.5"
                         >
                           <svg
