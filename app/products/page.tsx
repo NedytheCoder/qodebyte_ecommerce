@@ -466,10 +466,10 @@ const ProductsContent = () => {
       />
 
       <div
-        className="fixed bg-blue-500 top-18 right-0 z-52 p-1 pl-2 text-white text-sm rounded-bl-full rounded-tl-full lg:hidden"
+        className="fixed bg-blue-500 top-18 right-0 z-50 p-1 pl-2 text-white text-sm rounded-bl-full rounded-tl-full lg:hidden"
         onClick={() => setShowFilters(!showFilters)}
       >
-        {showFilters ? "Hide" : "Show"} Filters
+        Show Filters
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -639,7 +639,13 @@ const ProductsContent = () => {
                 </div>
 
                 {/* Apply Filters Button */}
-                <div className="mt-6 pt-4 border-t border-gray-200">
+                <div className="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between gap-3">
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className="w-full border border-gray-300 rounded-md py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    Hide Filters
+                  </button>
                   <button
                     onClick={() => {
                       applyFilters();
