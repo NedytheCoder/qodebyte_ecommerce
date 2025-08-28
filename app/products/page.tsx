@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Product, FilterOptions, SortOption, CartItem } from "../types";
 import Nav from "../nav/Nav";
 import { useAppContext } from "../context/AppContext";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 const ProductsContent = () => {
   const {
@@ -489,10 +490,10 @@ const ProductsContent = () => {
                     Filters
                   </h3>
                   <button
-                    onClick={clearFilters}
+                    onClick={() => setShowFilters(false)}
                     className="text-sm text-blue-600 hover:text-blue-800"
                   >
-                    Clear all
+                    <AiFillCloseCircle size={26} />
                   </button>
                 </div>
                 {/* <p className="text-xs text-gray-500 mb-4">
@@ -641,10 +642,10 @@ const ProductsContent = () => {
                 {/* Apply Filters Button */}
                 <div className="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between gap-3">
                   <button
-                    onClick={() => setShowFilters(false)}
+                    onClick={clearFilters}
                     className="w-full border border-gray-300 rounded-md py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50"
                   >
-                    Hide Filters
+                    Clear Filters
                   </button>
                   <button
                     onClick={() => {
