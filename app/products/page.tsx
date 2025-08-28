@@ -479,12 +479,12 @@ const ProductsContent = () => {
               <div
                 className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
                   showFilters ? "left-0 " : "-left-[110%]"
-                } transition-all h-screen lg:static lg:w-full lg:left-auto lg:top-auto`}
+                } transition-all h-screen top-0 lg:static lg:w-full lg:left-auto lg:top-auto`}
               >
                 {/* className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1 top-9  ${
                   showFilters ? "left-0" : "-left-[110%]"
                 } transition-all lg:fixed lg:w-[18%] lg:left-[0%]`} */}
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-4 mt-24">
                   <h3 className="text-lg font-semibold text-gray-900">
                     Filters
                   </h3>
