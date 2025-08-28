@@ -466,7 +466,7 @@ const ProductsContent = () => {
       />
 
       <div
-        className="fixed bg-blue-500 top-18 right-0 z-2 p-1 pl-2 text-white text-sm rounded-bl-full rounded-tl-full lg:hidden"
+        className="fixed bg-blue-500 top-18 right-0 z-52 p-1 pl-2 text-white text-sm rounded-bl-full rounded-tl-full lg:hidden"
         onClick={() => setShowFilters(!showFilters)}
       >
         {showFilters ? "Hide" : "Show"} Filters
@@ -479,7 +479,7 @@ const ProductsContent = () => {
               <div
                 className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
                   showFilters ? "left-0 " : "-left-[110%]"
-                } transition-all top-0 h-screen flex flex-col justify-center lg:static lg:w-full lg:left-auto lg:top-auto`}
+                } transition-all top-0 h-screen flex flex-col justify-center z-51 lg:static lg:w-full lg:left-auto lg:top-auto`}
               >
                 {/* className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1 top-9  ${
                   showFilters ? "left-0" : "-left-[110%]"
