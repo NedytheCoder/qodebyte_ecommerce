@@ -480,7 +480,7 @@ const ProductsContent = () => {
               <div
                 className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
                   showFilters ? "left-0 " : "-left-[110%]"
-                } transition-all top-0 h-screen flex flex-col justify-center z-51 lg:static lg:w-full lg:left-auto lg:top-auto`}
+                } transition-all top-0 h-screen lg:h-auto flex flex-col justify-center lg:block z-51 lg:static lg:w-full lg:left-auto lg:top-auto`}
               >
                 {/* className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1 top-9  ${
                   showFilters ? "left-0" : "-left-[110%]"
@@ -491,7 +491,7 @@ const ProductsContent = () => {
                   </h3>
                   <button
                     onClick={() => setShowFilters(false)}
-                    className="text-sm text-blue-600 hover:text-blue-800"
+                    className="text-sm text-blue-600 lg:hidden hover:text-blue-800"
                   >
                     <AiFillCloseCircle size={26} />
                   </button>
