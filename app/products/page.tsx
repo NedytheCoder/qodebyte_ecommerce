@@ -479,7 +479,7 @@ const ProductsContent = () => {
               <div
                 className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
                   showFilters ? "left-0 " : "-left-[110%]"
-                } transition-all lg:static lg:w-full lg:left-auto lg:top-auto`}
+                } transition-all h-screen lg:static lg:w-full lg:left-auto lg:top-auto`}
               >
                 {/* className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1 top-9  ${
                   showFilters ? "left-0" : "-left-[110%]"
@@ -751,8 +751,7 @@ const ProductsContent = () => {
                   key={product.id}
                   className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden cursor-pointer"
                   onClick={() => {
-                    // Navigate to product detail page
-                    console.log(`Navigate to product ${product.id}`);
+                    window.location.href = `/products/${product.id}`;
                   }}
                 >
                   {/* Product Image */}
