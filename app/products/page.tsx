@@ -466,7 +466,7 @@ const ProductsContent = () => {
       />
 
       <div
-        className="fixed bg-blue-500 top-20 z-2 p-2 text-white text-sm rounded-br-full rounded-tr-full lg:hidden"
+        className="fixed bg-blue-500 top-18 right-0 z-2 p-1 pl-2 text-white text-sm rounded-bl-full rounded-tl-full lg:hidden"
         onClick={() => setShowFilters(!showFilters)}
       >
         {showFilters ? "Hide" : "Show"} Filters
@@ -479,12 +479,12 @@ const ProductsContent = () => {
               <div
                 className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
                   showFilters ? "left-0 " : "-left-[110%]"
-                } transition-all h-screen top-0 lg:static lg:w-full lg:left-auto lg:top-auto`}
+                } transition-all top-0 h-screen flex flex-col justify-center lg:static lg:w-full lg:left-auto lg:top-auto`}
               >
                 {/* className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1 top-9  ${
                   showFilters ? "left-0" : "-left-[110%]"
                 } transition-all lg:fixed lg:w-[18%] lg:left-[0%]`} */}
-                <div className="flex items-center justify-between mb-4 mt-24">
+                <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-gray-900">
                     Filters
                   </h3>
@@ -495,14 +495,14 @@ const ProductsContent = () => {
                     Clear all
                   </button>
                 </div>
-                <p className="text-xs text-gray-500 mb-4">
+                {/* <p className="text-xs text-gray-500 mb-4">
                   Select categories and brands to filter products. No selection
                   shows all products.
-                </p>
+                </p> */}
 
                 {/* Category Filter */}
                 <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-900 mb-3">
+                  <h4 className="text-sm font-medium text-gray-900 mb-3 mt-9">
                     Category
                   </h4>
                   <div className="space-y-2">
