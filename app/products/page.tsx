@@ -325,7 +325,7 @@ const ProductsContent = () => {
       setFilters(newFilters);
       setPendingFilters(newFilters);
     }
-  }, [searchParams, isClient, filters]);
+  }, [searchParams, isClient]);
 
   // Filter and sort products
   const applyFiltersAndSort = useMemo(() => {
@@ -478,9 +478,9 @@ const ProductsContent = () => {
           <div className="lg:w-64 relative lg:block">
             <div className="relative">
               <div
-                className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-1  ${
+                className={`fixed bg-white rounded-lg shadow-sm p-6 w-full z-50  ${
                   showFilters ? "left-0 " : "-left-[110%]"
-                } transition-all top-0 h-screen lg:h-auto flex flex-col justify-center lg:block z-51 lg:static lg:w-full lg:left-auto lg:top-auto`}
+                } transition-all top-0 h-screen lg:h-auto flex flex-col justify-center lg:block lg:static lg:w-full lg:left-auto lg:top-auto`}
               >
                 {/* className={`absolute bg-white rounded-lg shadow-sm p-6 w-full z-1 top-9  ${
                   showFilters ? "left-0" : "-left-[110%]"
