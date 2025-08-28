@@ -325,7 +325,7 @@ const ProductsContent = () => {
       setFilters(newFilters);
       setPendingFilters(newFilters);
     }
-  }, [searchParams, isClient]);
+  }, [searchParams, isClient, filters]);
 
   // Filter and sort products
   const applyFiltersAndSort = useMemo(() => {
