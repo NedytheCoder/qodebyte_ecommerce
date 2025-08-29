@@ -2,12 +2,14 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { Product, Category } from "../types";
+import { Product, Category, CartItem } from "../types";
 
 interface AppContextType {
   // Cart state
   cartCount: number;
   setCartCount: (count: number | ((prev: number) => number)) => void;
+  cartItems: CartItem[];
+  setCartItems: (items: CartItem[] | ((prev: CartItem[]) => CartItem[])) => void;
 
   // Search state
   searchQuery: string;
@@ -23,6 +25,8 @@ interface AppContextType {
   // Handlers
   handleSearch: (e: React.FormEvent) => void;
   handleAddToCart: (product: Product) => void;
+  handleUpdateQuantity: (productId: number, quantity: number) => void;
+  handleRemoveFromCart: (productId: number) => void;
   handleLogin: () => void;
   handleRegister: () => void;
   handleCategoryClick: (category: Category) => void;
@@ -40,6 +44,7 @@ export const useAppContext = () => {
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const router = useRouter();
@@ -86,8 +91,52 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleAddToCart = (product: Product) => {
+    setCartItems((prev) => {
+      const existingItem = prev.find((item) => item.product.id === product.id);
+      if (existingItem) {
+        return prev.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        return [...prev, { product, quantity: 1 }];
+      }
+    });
     setCartCount((prev) => prev + 1);
     console.log("Added to cart:", product.name);
+  };
+
+  const handleUpdateQuantity = (productId: number, quantity: number) => {
+    if (quantity <= 0) {
+      handleRemoveFromCart(productId);
+      return;
+    }
+    
+    setCartItems((prev) => {
+      const oldItem = prev.find((item) => item.product.id === productId);
+      const newItems = prev.map((item) =>
+        item.product.id === productId ? { ...item, quantity } : item
+      );
+      
+      // Update cart count
+      if (oldItem) {
+        const countDifference = quantity - oldItem.quantity;
+        setCartCount((prevCount) => prevCount + countDifference);
+      }
+      
+      return newItems;
+    });
+  };
+
+  const handleRemoveFromCart = (productId: number) => {
+    setCartItems((prev) => {
+      const itemToRemove = prev.find((item) => item.product.id === productId);
+      if (itemToRemove) {
+        setCartCount((prevCount) => prevCount - itemToRemove.quantity);
+      }
+      return prev.filter((item) => item.product.id !== productId);
+    });
   };
 
   const handleLogin = () => {
@@ -103,6 +152,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const value: AppContextType = {
     cartCount,
     setCartCount,
+    cartItems,
+    setCartItems,
     searchQuery,
     setSearchQuery,
     isCategoriesOpen,
@@ -110,6 +161,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     featuredCategories,
     handleSearch,
     handleAddToCart,
+    handleUpdateQuantity,
+    handleRemoveFromCart,
     handleLogin,
     handleRegister,
     handleCategoryClick,

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Product, Category } from "../types";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { BsCart3 } from "react-icons/bs";
 
 interface NavProps {
   featuredCategories: Category[];
@@ -21,7 +23,6 @@ interface NavProps {
 const Nav = ({
   featuredCategories,
   cartCount,
-  onAddToCart,
   onLogin,
   onRegister,
   searchQuery,
@@ -32,19 +33,7 @@ const Nav = ({
   handleCategoryClick,
 }: NavProps) => {
   const [check, setChecked] = useState(false);
-
-  // Create a dummy product for cart view
-  const createDummyProduct = (): Product => ({
-    id: 0,
-    name: "Cart View",
-    price: 0,
-    image: "🛒",
-    category: "Cart",
-    brand: "System",
-    rating: 0,
-    description: "View your cart",
-    inStock: true,
-  });
+  const router = useRouter();
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -159,22 +148,10 @@ const Nav = ({
             <div className="flex items-center space-x-4">
               {/* Cart */}
               <button
-                onClick={() => onAddToCart(createDummyProduct())}
+                onClick={() => router.push("/cart")}
                 className="relative p-2 text-gray-700 hover:text-blue-600"
               >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m6 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"
-                  />
-                </svg>
+                <BsCart3 size={24} />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                     {cartCount}
@@ -201,7 +178,7 @@ const Nav = ({
           <div
             className={`absolute w-full bg-white ${
               !check ? "-left-full" : "left-0"
-            } p-5 top-16 flex flex-col gap-5 transition-all`}
+            } p-5 top-16 flex flex-col gap-5 transition-all z-55`}
           >
             <div className="space-y-3">
               <div className="relative">
@@ -292,24 +269,15 @@ const Nav = ({
               </button>
             </form>
             <button
-              onClick={() => onAddToCart(createDummyProduct())}
+              onClick={() => {
+                router.push("/cart");
+                setChecked(false);
+              }}
               className="relative p-2 text-gray-700 hover:text-blue-600"
             >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m6 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"
-                />
-              </svg>
+              <BsCart3 size={24} />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 left-7 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}

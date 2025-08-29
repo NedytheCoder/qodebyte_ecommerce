@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Product, FilterOptions, SortOption, CartItem } from "../types";
+import { Product, FilterOptions, SortOption } from "../types";
 import Nav from "../nav/Nav";
 import { useAppContext } from "../context/AppContext";
 import { AiFillCloseCircle } from "react-icons/ai";
@@ -244,8 +244,6 @@ const ProductsContent = () => {
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(mockProducts);
 
-  const [cart, setCart] = useState<CartItem[]>([]);
-
   const [filters, setFilters] = useState<FilterOptions>({
     category: [],
     brand: [],
@@ -395,27 +393,6 @@ const ProductsContent = () => {
     setFilteredProducts(applyFiltersAndSort);
   }, [applyFiltersAndSort]);
 
-  // Add to cart
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find(
-        (item) => item.product.id === product.id
-      );
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      } else {
-        return [...prevCart, { product, quantity: 1 }];
-      }
-    });
-  };
-
-  // Get cart total count
-  // const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
-
   // Handle pending filter changes
   const handlePendingFilterChange = (
     filterType: keyof FilterOptions,
@@ -467,7 +444,7 @@ const ProductsContent = () => {
       />
 
       <div
-        className="fixed bg-blue-500 top-18 right-0 z-50 p-1 pl-2 text-white text-sm rounded-bl-full rounded-tl-full lg:hidden"
+        className="fixed bg-blue-500 top-18 right-0 z-40 p-1 pl-2 text-white text-sm rounded-bl-full rounded-tl-full lg:hidden"
         onClick={() => setShowFilters(!showFilters)}
       >
         Show Filters
@@ -828,7 +805,7 @@ const ProductsContent = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        addToCart(product);
+                        handleAddToCart(product);
                       }}
                       disabled={!product.inStock}
                       className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
