@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Product, Category } from "./types";
 import Link from "next/link";
 
@@ -52,7 +53,7 @@ const Hero = ({
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8 sm:mb-12">
             Shop by Category
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {featuredCategories.map((category) => (
               <div
                 key={category.id}
@@ -80,7 +81,7 @@ const Hero = ({
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8 sm:mb-12">
             Featured Products
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {featuredProducts.map((product) => (
               <div
                 key={product.id}
