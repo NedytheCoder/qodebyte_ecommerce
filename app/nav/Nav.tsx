@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Product, Category } from "../types";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { BsCart3 } from "react-icons/bs";
 
 interface NavProps {
@@ -33,7 +32,6 @@ const Nav = ({
   handleCategoryClick,
 }: NavProps) => {
   const [check, setChecked] = useState(false);
-  const router = useRouter();
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useAppContext } from "../context/AppContext";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -21,7 +20,6 @@ interface FormErrors {
 
 const Checkout = () => {
   const { cartItems, setCartItems, setCartCount } = useAppContext();
-  const router = useRouter();
 
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     name: "",
@@ -34,7 +32,6 @@ const Checkout = () => {
 
   const [selectedPayment, setSelectedPayment] = useState<string>("credit");
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isProcessing, setIsProcessing] = useState(false);
 
   // Calculate totals
   const subtotal = cartItems.reduce((sum, item) => {

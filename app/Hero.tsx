@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Product, Category } from "./types";
 import Link from "next/link";
 
@@ -17,8 +16,6 @@ const Hero = ({
   onAddToCart,
   handleCategoryClick,
 }: HeroProps) => {
-  const router = useRouter();
-
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gray-50">
       {/* Hero Section */}
@@ -38,7 +35,7 @@ const Hero = ({
               >
                 Shop Now
               </Link>
-              <Link 
+              <Link
                 href="#"
                 className="border-2 border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors text-center"
               >
