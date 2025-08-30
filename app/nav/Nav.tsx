@@ -22,8 +22,6 @@ interface NavProps {
 const Nav = ({
   featuredCategories,
   cartCount,
-  onLogin,
-  onRegister,
   searchQuery,
   setSearchQuery,
   handleSearch,
@@ -158,18 +156,18 @@ const Nav = ({
               </Link>
 
               {/* Auth buttons */}
-              <button
-                onClick={onLogin}
+              <Link
+                href="/registration/login"
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium"
               >
                 Login
-              </button>
-              <button
-                onClick={onRegister}
+              </Link>
+              <Link
+                href="/registration/signup"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 Register
-              </button>
+              </Link>
             </div>
           </div>
           {/* NAV FOR MOBILE PHONES */}
@@ -279,18 +277,20 @@ const Nav = ({
               )}
             </Link>
             {/* Auth buttons */}
-            <button
-              onClick={onLogin}
+            <Link
+              href="/registration/login"
+              onClick={() => setChecked(false)}
               className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium border rounded-sm border-gray-950"
             >
               Login
-            </button>
-            <button
-              onClick={onRegister}
+            </Link>
+            <Link
+              href="/registration/signup"
+              onClick={() => setChecked(false)}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               Register
-            </button>
+            </Link>
           </div>
         </div>
       </div>

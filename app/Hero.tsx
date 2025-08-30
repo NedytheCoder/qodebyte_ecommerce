@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Product, Category } from "./types";
 import Link from "next/link";
 
