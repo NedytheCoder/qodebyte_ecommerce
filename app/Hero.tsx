@@ -32,15 +32,18 @@ const Hero = ({
               Discover amazing deals on the latest tech products
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-              <button
-                onClick={() => router.push("/products")}
-                className="bg-white text-blue-600 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-gray-100 transition-colors"
+              <Link
+                href="/products"
+                className="bg-white text-blue-600 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-gray-100 transition-colors text-center"
               >
-                <Link href="#">Shop Now</Link>
-              </button>
-              <button className="border-2 border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
-                <Link href="#">Learn More</Link>
-              </button>
+                Shop Now
+              </Link>
+              <Link 
+                href="#"
+                className="border-2 border-white text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors text-center"
+              >
+                Learn More
+              </Link>
             </div>
           </div>
         </div>

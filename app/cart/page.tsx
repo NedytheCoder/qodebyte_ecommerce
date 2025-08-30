@@ -4,6 +4,7 @@ import React from "react";
 import { useAppContext } from "../context/AppContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const Cart = () => {
   const { cartItems, handleUpdateQuantity, handleRemoveFromCart } =
@@ -45,12 +46,12 @@ const Cart = () => {
               Your cart is empty
             </h2>
             <p className="text-gray-500 mb-6">Add some items to get started!</p>
-            <button
-              onClick={() => router.push("/products")}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            <Link
+              href="/products"
+              className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Continue Shopping
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -261,12 +262,12 @@ const Cart = () => {
 
             {/* Continue Shopping */}
             <div className="mt-4 sm:mt-6">
-              <button
-                onClick={() => router.push("/products")}
+              <Link
+                href="/products"
                 className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
               >
                 ← Continue Shopping
-              </button>
+              </Link>
             </div>
           </div>
 

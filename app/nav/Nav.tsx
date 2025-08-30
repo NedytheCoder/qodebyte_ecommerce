@@ -147,8 +147,8 @@ const Nav = ({
             {/* Right side actions */}
             <div className="flex items-center space-x-4">
               {/* Cart */}
-              <button
-                onClick={() => router.push("/cart")}
+              <Link
+                href="/cart"
                 className="relative p-2 text-gray-700 hover:text-blue-600"
               >
                 <BsCart3 size={24} />
@@ -157,7 +157,7 @@ const Nav = ({
                     {cartCount}
                   </span>
                 )}
-              </button>
+              </Link>
 
               {/* Auth buttons */}
               <button
@@ -268,11 +268,9 @@ const Nav = ({
                 Search
               </button>
             </form>
-            <button
-              onClick={() => {
-                router.push("/cart");
-                setChecked(false);
-              }}
+            <Link
+              href="/cart"
+              onClick={() => setChecked(false)}
               className="relative p-2 text-gray-700 hover:text-blue-600"
             >
               <BsCart3 size={24} />
@@ -281,7 +279,7 @@ const Nav = ({
                   {cartCount}
                 </span>
               )}
-            </button>
+            </Link>
             {/* Auth buttons */}
             <button
               onClick={onLogin}

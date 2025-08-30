@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Product } from "../../types";
 import Nav from "../../nav/Nav";
 import { useAppContext } from "../../context/AppContext";
+import Link from "next/link";
 
 const ProductDetailPage = () => {
   const params = useParams();
-  const router = useRouter();
   const productId = parseInt(params.id as string);
 
   const {
@@ -292,12 +292,12 @@ const ProductDetailPage = () => {
             <p className="text-gray-600 mb-6">
               The product you&apos;re looking for doesn&apos;t exist.
             </p>
-            <button
-              onClick={() => router.push("/products")}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium"
+            <Link
+              href="/products"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium"
             >
               Back to Products
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -325,12 +325,12 @@ const ProductDetailPage = () => {
         <nav className="flex mb-8" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-3">
             <li className="inline-flex items-center">
-              <button
-                onClick={() => router.push("/")}
+              <Link
+                href="/"
                 className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
               >
                 Home
-              </button>
+              </Link>
             </li>
             <li>
               <div className="flex items-center">
@@ -349,12 +349,12 @@ const ProductDetailPage = () => {
                     d="m1 9 4-4-4-4"
                   />
                 </svg>
-                <button
-                  onClick={() => router.push("/products")}
+                <Link
+                  href="/products"
                   className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2"
                 >
                   Products
-                </button>
+                </Link>
               </div>
             </li>
             <li>
@@ -596,10 +596,10 @@ const ProductDetailPage = () => {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((relatedProduct) => (
-                <div
+                <Link
                   key={relatedProduct.id}
-                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden cursor-pointer"
-                  onClick={() => router.push(`/products/${relatedProduct.id}`)}
+                  href={`/products/${relatedProduct.id}`}
+                  className="block bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
                 >
                   <div className="aspect-square bg-gray-200 relative overflow-hidden">
                     <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
@@ -652,7 +652,7 @@ const ProductDetailPage = () => {
                       )}
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
