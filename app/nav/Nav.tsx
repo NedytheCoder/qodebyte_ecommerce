@@ -48,45 +48,18 @@ const Nav = ({
               </h1>
             </Link>
           </div>
-          <div className="flex items-center gap-5">
-            {true && (
-              <>
-                <div className="md:hidden">
-                  <Link href="/cart" className="text-blue-600 relative">
-                    <BsCart3 size={24} />
-                    {cartCount > 0 && (
-                      <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
-                </div>
-              </>
-            )}
-            <div className="md:hidden">
-              {true ? (
-                <Link href="/registration/login" className="text-blue-600">
-                  <FaRegUserCircle size={24} />
-                  {/*  When user is logged in it takes them
-              to dashoard, but when not it takes them to login page */}
-                </Link>
-              ) : (
-                <>
-                  <Link
-                    href="/registration/login"
-                    className="text-gray-700 hover:text-blue-600 px-3 py-1 text-sm font-light"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/registration/signup"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-sm font-light transition-colors"
-                  >
-                    Register
-                  </Link>
-                </>
+          <div className="flex items-center gap-5 md:hidden">
+            <Link href="/cart" className="text-blue-600 relative">
+              <BsCart3 size={24} />
+              {cartCount > 0 && (
+                <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
               )}
-            </div>
+            </Link>
+            <Link href="/login" className="text-blue-600 relative">
+              <FaRegUserCircle size={24} />
+            </Link>
             <div className="md:hidden">
               <label>
                 <div className="w-9 h-10 cursor-pointer flex flex-col items-center justify-center">
@@ -223,13 +196,29 @@ const Nav = ({
           <div
             className={`${
               !check ? "-left-full" : "left-0"
-            } absolute w-full h-screen bg-[rgba(0,0,0,0.5)] p-5 top-16 flex flex-col gap-5 transition-all z-50`}
+            } absolute w-full h-screen top-32 flex flex-col gap-5 transition-all z-50 bg-[rgba(0,0,0,0.5)]`}
             onClick={() => setChecked(false)}
           >
             <div
-              className={`absolute w-[40%] h-full left-0 bg-[rgba(225,225,225)] p-5 top-0 flex flex-col gap-5 transition-all z-55`}
+              className={`absolute w-[80%] bg-white left-0 p-5 flex flex-col gap-5 transition-all z-55`}
             >
               <div className="flex flex-col gap-3">
+                <div className="flex gap-2">
+                  <Link
+                    href="/registration/login"
+                    className="text-gray-700 hover:text-blue-600 px-3 py-1 text-sm font-light border border-blue-600 rounded-md"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/registration/signup"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md text-sm font-light transition-colors"
+                  >
+                    Register
+                  </Link>
+                </div>
+                <hr className="border border-gray-200 my-2" />
+                <h3 className="text-md font-semibold">Our Categories</h3>
                 {featuredCategories.map((category) => (
                   <button
                     key={category.id}
@@ -242,6 +231,7 @@ const Nav = ({
                     <div className="font-medium">{category.name}</div>
                   </button>
                 ))}
+                <hr className="border border-gray-200 my-2" />
 
                 <Link
                   href="#"
@@ -269,13 +259,13 @@ const Nav = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search products..."
-            className="w-full px-4 py-2 pr-20 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 pr-45 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-full text-sm font-light transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 hover:bg-blue-700 text-blue-600 px-3 py-1.5 rounded-full text-sm font-light transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            <FaSearch size={20} />
+            <FaSearch size={15} />
           </button>
         </form>
       </div>
