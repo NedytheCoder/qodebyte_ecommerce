@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Product, Category } from "../types";
 import Link from "next/link";
 import { BsCart3 } from "react-icons/bs";
+import { FaRegUserCircle } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
 interface NavProps {
   featuredCategories: Category[];
@@ -32,27 +34,74 @@ const Nav = ({
   const [check, setChecked] = useState(false);
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header
+      className="bg-white shadow-sm sticky top-0 z-50"
+      onClick={() => (isCategoriesOpen ? setIsCategoriesOpen(false) : "")}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-blue-600">QodeByte</h1>
+            <Link href="/">
+              <h1 className="text-lg lg:text-2xl font-bold text-blue-600">
+                QodeByte
+              </h1>
+            </Link>
           </div>
-          <div className="md:hidden">
-            <label>
-              <div className="w-9 h-10 cursor-pointer flex flex-col items-center justify-center">
-                <input
-                  className="hidden peer"
-                  type="checkbox"
-                  checked={check}
-                  onChange={() => setChecked(!check)}
-                />
-                <div className="w-[50%] h-[2px] bg-blue-600 rounded-sm transition-all duration-300 origin-left translate-y-[0.45rem] peer-checked:rotate-[-45deg]"></div>
-                <div className="w-[50%] h-[2px] bg-blue-600 rounded-md transition-all duration-300 origin-center peer-checked:hidden"></div>
-                <div className="w-[50%] h-[2px] bg-blue-600 rounded-md transition-all duration-300 origin-left -translate-y-[0.45rem] peer-checked:rotate-[45deg]"></div>
-              </div>
-            </label>
+          <div className="flex items-center gap-5">
+            {true && (
+              <>
+                <div className="md:hidden">
+                  <Link href="/cart" className="text-blue-600 relative">
+                    <BsCart3 size={24} />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
+                </div>
+              </>
+            )}
+            <div className="md:hidden">
+              {true ? (
+                <Link href="/registration/login" className="text-blue-600">
+                  <FaRegUserCircle size={24} />
+                  {/*  When user is logged in it takes them
+              to dashoard, but when not it takes them to login page */}
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/registration/login"
+                    className="text-gray-700 hover:text-blue-600 px-3 py-1 text-sm font-light"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/registration/signup"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-sm font-light transition-colors"
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
+            </div>
+            <div className="md:hidden">
+              <label>
+                <div className="w-9 h-10 cursor-pointer flex flex-col items-center justify-center">
+                  <input
+                    className="hidden peer"
+                    type="checkbox"
+                    checked={check}
+                    onChange={() => setChecked(!check)}
+                  />
+                  <div className="w-[50%] h-[2px] bg-blue-600 rounded-sm transition-all duration-300 origin-left translate-y-[0.45rem] peer-checked:rotate-[-45deg]"></div>
+                  <div className="w-[50%] h-[2px] bg-blue-600 rounded-md transition-all duration-300 origin-center peer-checked:hidden"></div>
+                  <div className="w-[50%] h-[2px] bg-blue-600 rounded-md transition-all duration-300 origin-left -translate-y-[0.45rem] peer-checked:rotate-[45deg]"></div>
+                </div>
+              </label>
+            </div>
           </div>
           <div className="hidden md:flex justify-between gap">
             {/* Navigation */}
@@ -172,127 +221,63 @@ const Nav = ({
           </div>
           {/* NAV FOR MOBILE PHONES */}
           <div
-            className={`absolute w-full bg-white ${
+            className={`${
               !check ? "-left-full" : "left-0"
-            } p-5 top-16 flex flex-col gap-5 transition-all z-55`}
+            } absolute w-full h-screen bg-[rgba(0,0,0,0.5)] p-5 top-16 flex flex-col gap-5 transition-all z-50`}
+            onClick={() => setChecked(false)}
           >
-            <div className="space-y-3">
-              <div className="relative">
-                <button
-                  onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-                  className="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium mb-3"
-                >
-                  Categories
-                  <svg
-                    className="ml-1 h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+            <div
+              className={`absolute w-[40%] h-full left-0 bg-[rgba(225,225,225)] p-5 top-0 flex flex-col gap-5 transition-all z-55`}
+            >
+              <div className="flex flex-col gap-3">
+                {featuredCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => {
+                      handleCategoryClick(category);
+                      setChecked(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
+                    <div className="font-medium">{category.name}</div>
+                  </button>
+                ))}
 
-                {isCategoriesOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
-                    <div className="py-1">
-                      {featuredCategories.map((category) => (
-                        <button
-                          key={category.id}
-                          onClick={() => {
-                            handleCategoryClick(category);
-                            setChecked(false);
-                          }}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600"
-                        >
-                          <div className="flex items-center">
-                            <span className="text-xl mr-3">
-                              {category.icon}
-                            </span>
-                            <div>
-                              <div className="font-medium">{category.name}</div>
-                              <div className="text-xs text-gray-500">
-                                {category.description}
-                              </div>
-                            </div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <Link
+                  href="#"
+                  onClick={() => setChecked(false)}
+                  className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium mb-2"
+                >
+                  Deals
+                </Link>
+                <Link
+                  href="#"
+                  onClick={() => setChecked(false)}
+                  className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Support
+                </Link>
               </div>
-
-              <Link
-                href="#"
-                onClick={() => setChecked(false)}
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Deals
-              </Link>
-              <Link
-                href="#"
-                onClick={() => setChecked(false)}
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Support
-              </Link>
             </div>
-            <form
-              onSubmit={(e) => {
-                handleSearch(e);
-                setChecked(false);
-              }}
-              className="relative"
-            >
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..."
-                className="w-full px-4 py-2 pr-20 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <button
-                type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-sm font-medium transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                Search
-              </button>
-            </form>
-            <Link
-              href="/cart"
-              onClick={() => setChecked(false)}
-              className="relative p-2 text-gray-700 hover:text-blue-600"
-            >
-              <BsCart3 size={24} />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 left-7 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
-            {/* Auth buttons */}
-            <Link
-              href="/registration/login"
-              onClick={() => setChecked(false)}
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium border rounded-sm border-gray-950"
-            >
-              Login
-            </Link>
-            <Link
-              href="/registration/signup"
-              onClick={() => setChecked(false)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-            >
-              Register
-            </Link>
           </div>
         </div>
+      </div>
+      <div className="flex justify-center items-center h-16 md:hidden">
+        <form onSubmit={handleSearch} className="relative">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search products..."
+            className="w-full px-4 py-2 pr-20 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+          <button
+            type="submit"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-full text-sm font-light transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            <FaSearch size={20} />
+          </button>
+        </form>
       </div>
     </header>
   );
