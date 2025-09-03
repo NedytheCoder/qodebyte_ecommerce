@@ -262,7 +262,8 @@ const Nav = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search products..."
-            className="w-[92%] px-4 py-2 pr-40 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-[92%] px-4 py-2 pr-40 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+            style={{ fontSize: "16px" }}
           />
           <button
             type="submit"
