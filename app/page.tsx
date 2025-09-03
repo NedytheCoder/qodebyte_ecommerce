@@ -22,7 +22,7 @@ export default function Home() {
 
   const featuredProducts: Product[] = [
     {
-      id: 1,
+      id: 17,
       name: "Wireless Bluetooth Headphones",
       price: 89.99,
       image: "🎧",
@@ -33,7 +33,7 @@ export default function Home() {
       inStock: true,
     },
     {
-      id: 2,
+      id: 18,
       name: "Organic Cotton T-Shirt",
       price: 24.99,
       image: "👕",
@@ -44,7 +44,7 @@ export default function Home() {
       inStock: true,
     },
     {
-      id: 3,
+      id: 19,
       name: "Garden Tool Set",
       price: 45.99,
       image: "🏡",
@@ -55,7 +55,7 @@ export default function Home() {
       inStock: true,
     },
     {
-      id: 4,
+      id: 20,
       name: "Leather Wallet",
       price: 49.99,
       image: "💼",
@@ -66,7 +66,7 @@ export default function Home() {
       inStock: true,
     },
     {
-      id: 5,
+      id: 21,
       name: "Smart Fitness Watch",
       price: 199.99,
       image: "⌚",
@@ -77,7 +77,7 @@ export default function Home() {
       inStock: true,
     },
     {
-      id: 6,
+      id: 22,
       name: "Winter Jacket",
       price: 149.99,
       image: "🧥",

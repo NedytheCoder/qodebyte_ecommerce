@@ -57,7 +57,7 @@ const Nav = ({
                 </span>
               )}
             </Link>
-            <Link href="/login" className="text-blue-600 relative">
+            <Link href="/registration/login" className="text-blue-600 relative">
               <FaRegUserCircle size={24} />
             </Link>
             <div className="md:hidden">
@@ -83,7 +83,7 @@ const Nav = ({
               <div className="relative">
                 <button
                   onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-                  className="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                  className="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                 >
                   Categories
                   <svg

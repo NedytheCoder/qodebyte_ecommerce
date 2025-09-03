@@ -59,13 +59,13 @@ const Hero = ({
                 onClick={() => handleCategoryClick(category)}
                 className="group cursor-pointer bg-gray-50 rounded-xl p-6 sm:p-8 text-center hover:bg-blue-50 hover:shadow-lg transition-all duration-300"
               >
-                <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                <div className="text-3xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
                   {category.icon}
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-md sm:text-xl font-semibold text-gray-900 mb-2">
                   {category.name}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600">
+                <p className="text-[10px] sm:text-base text-gray-600">
                   {category.description}
                 </p>
               </div>
@@ -82,15 +82,16 @@ const Hero = ({
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {featuredProducts.map((product) => (
-              <div
+              <Link
                 key={product.id}
+                href={`/products/${product.id}`}
                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow"
               >
                 <div className="p-4 sm:p-6 text-center">
-                  <div className="text-6xl sm:text-7xl lg:text-8xl mb-3 sm:mb-4">
+                  <div className="text-4xl sm:text-7xl lg:text-8xl mb-3 sm:mb-4">
                     {product.image}
                   </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-sm sm:text-lg font-semibold text-gray-900 mb-2">
                     {product.name}
                   </h3>
                   <p className="text-xs sm:text-sm text-gray-600 mb-3">
@@ -117,7 +118,7 @@ const Hero = ({
                       </span>
                     </div>
                   </div>
-                  <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
+                  <div className="text-lg sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
                     ${product.price}
                   </div>
                   <button
@@ -127,7 +128,7 @@ const Hero = ({
                     Add to Cart
                   </button>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -6,6 +6,7 @@ import { Product, FilterOptions, SortOption } from "../types";
 import Nav from "../nav/Nav";
 import { useAppContext } from "../context/AppContext";
 import { AiFillCloseCircle } from "react-icons/ai";
+import Link from "next/link";
 
 const ProductsContent = () => {
   const {
@@ -444,12 +445,47 @@ const ProductsContent = () => {
       />
 
       <div
-        className="fixed bg-blue-500 top-18 right-0 z-40 p-1 pl-2 text-white text-sm rounded-bl-full rounded-tl-full lg:hidden"
+        className="fixed bg-blue-500 top-36 right-0 z-40 p-1 pl-2 text-white text-sm rounded-bl-full rounded-tl-full lg:hidden"
         onClick={() => setShowFilters(!showFilters)}
       >
         Show Filters
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 sm:py-6">
+        {/* Breadcrumb */}
+        <div className="flex pt-3 sm:mb-8" aria-label="Breadcrumb">
+          <ol className="inline-flex items-center space-x-1 md:space-x-3">
+            <li className="inline-flex items-center">
+              <Link
+                href="/"
+                className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
+              >
+                Home
+              </Link>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <svg
+                  className="w-3 h-3 text-gray-400 mx-1"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+                <div className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2">
+                  Products
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <div className="lg:w-64 relative lg:block">
@@ -653,7 +689,7 @@ const ProductsContent = () => {
             {/* Sort and Results Count */}
             <div className="flex items-center justify-between mb-6 flex-col gap-5 lg:flex-row">
               <div className="flex items-center space-x-4 flex-col lg:flex-row w-full">
-                <p className="text-sm text-gray-700 mb-2 font-bold">
+                <p className="text-md sm:text-lg text-gray-700 mb-2 font-bold">
                   {filters.searchQuery
                     ? `Search results for "${filters.searchQuery}" - ${filteredProducts.length} of ${mockProducts.length} products`
                     : `Showing ${filteredProducts.length} of ${mockProducts.length} products`}
@@ -760,7 +796,7 @@ const ProductsContent = () => {
                   {/* Product Info */}
                   <div className="p-4">
                     <div className="mb-2">
-                      <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1">
+                      <h3 className="text-xs sm:text-sm font-medium text-gray-900 line-clamp-2 mb-1">
                         {product.name}
                       </h3>
                       <p className="text-xs text-gray-500">{product.brand}</p>
@@ -795,7 +831,7 @@ const ProductsContent = () => {
                         ${product.price.toFixed(2)}
                       </span>
                       {product.originalPrice && (
-                        <span className="ml-2 text-sm text-gray-500 line-through">
+                        <span className="ml-2 text-[10px] sm:text-md text-gray-500 line-through">
                           ${product.originalPrice.toFixed(2)}
                         </span>
                       )}
@@ -808,7 +844,7 @@ const ProductsContent = () => {
                         handleAddToCart(product);
                       }}
                       disabled={!product.inStock}
-                      className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
+                      className={`w-full py-1 px-3 sm:py-3  rounded-md text-xs font-medium transition-colors duration-200 ${
                         product.inStock
                           ? "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                           : "bg-gray-300 text-gray-500 cursor-not-allowed"

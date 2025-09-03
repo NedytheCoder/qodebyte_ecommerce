@@ -100,10 +100,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             : item
         );
       } else {
-        return [...prev, { product, quantity: 1 }];
+        // For a new product, update the count based on the new items array length
+        const newItems = [...prev, { product, quantity: 1 }];
+        setCartCount(newItems.length);
+        return newItems;
       }
     });
-    setCartCount((prev) => prev + 1);
     console.log("Added to cart:", product.name);
   };
 
@@ -114,15 +116,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
     
     setCartItems((prev) => {
-      const oldItem = prev.find((item) => item.product.id === productId);
+      const itemExists = prev.some(item => item.product.id === productId);
       const newItems = prev.map((item) =>
         item.product.id === productId ? { ...item, quantity } : item
       );
       
-      // Update cart count
-      if (oldItem) {
-        const countDifference = quantity - oldItem.quantity;
-        setCartCount((prevCount) => prevCount + countDifference);
+      // If this is a new product being added (quantity changed from 0 to 1)
+      if (quantity === 1 && !itemExists) {
+        setCartCount(prev => prev + 1);
       }
       
       return newItems;
@@ -131,11 +132,21 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const handleRemoveFromCart = (productId: number) => {
     setCartItems((prev) => {
-      const itemToRemove = prev.find((item) => item.product.id === productId);
-      if (itemToRemove) {
-        setCartCount((prevCount) => prevCount - itemToRemove.quantity);
+      const itemToRemove = prev.find(item => item.product.id === productId);
+      if (itemToRemove && itemToRemove.quantity > 1) {
+        // If quantity > 1, just decrease quantity
+        return prev.map(item => 
+          item.product.id === productId 
+            ? { ...item, quantity: item.quantity - 1 } 
+            : item
+        );
+      } else {
+        // If quantity is 1, remove the item and update cart count
+        if (itemToRemove) {
+          setCartCount(prev => Math.max(0, prev - 1));
+        }
+        return prev.filter(item => item.product.id !== productId);
       }
-      return prev.filter((item) => item.product.id !== productId);
     });
   };
 
