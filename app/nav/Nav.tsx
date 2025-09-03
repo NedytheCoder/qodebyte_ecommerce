@@ -253,17 +253,20 @@ const Nav = ({
         </div>
       </div>
       <div className="flex justify-center items-center h-16 md:hidden">
-        <form onSubmit={handleSearch} className="relative">
+        <form
+          onSubmit={handleSearch}
+          className="relative w-full flex items-center justify-center"
+        >
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search products..."
-            className="w-full px-4 py-2 pr-40 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-[92%] px-4 py-2 pr-40 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 hover:bg-blue-700 text-blue-600 px-3 py-1.5 rounded-full text-sm font-light transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="absolute right-5 top-1/2 transform -translate-y-1/2 hover:bg-blue-700 text-blue-600 px-3 py-1.5 rounded-full text-sm font-light transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             <FaSearch size={15} />
           </button>

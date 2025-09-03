@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Product, Category } from "./types";
 import Link from "next/link";
 
@@ -16,6 +17,7 @@ const Hero = ({
   onAddToCart,
   handleCategoryClick,
 }: HeroProps) => {
+  const router = useRouter();
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gray-50">
       {/* Hero Section */}
@@ -82,10 +84,10 @@ const Hero = ({
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {featuredProducts.map((product) => (
-              <Link
+              <div
                 key={product.id}
-                href={`/products/${product.id}`}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow"
+                onClick={() => router.push(`/products/${product.id}`)}
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
               >
                 <div className="p-4 sm:p-6 text-center">
                   <div className="text-3xl sm:text-7xl lg:text-8xl mb-3 sm:mb-4">
@@ -102,7 +104,7 @@ const Hero = ({
                       {[...Array(5)].map((_, i) => (
                         <svg
                           key={i}
-                          className={`h-3 w-3 sm:h-4 sm:w-4 ${
+                          className={`w-3 h-3 sm:w-4 sm:h-4 ${
                             i < Math.floor(product.rating)
                               ? "text-yellow-400"
                               : "text-gray-300"
@@ -122,13 +124,16 @@ const Hero = ({
                     ${product.price}
                   </div>
                   <button
-                    onClick={() => onAddToCart(product)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent the click from bubbling up to the parent div
+                      onAddToCart(product);
+                    }}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-1 sm:py-2.5 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-colors"
                   >
                     Add to Cart
                   </button>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
