@@ -796,7 +796,7 @@ const ProductsContent = () => {
                   {/* Product Info */}
                   <div className="p-4">
                     <div className="mb-2">
-                      <h3 className="text-xs sm:text-sm font-medium text-gray-900 line-clamp-2 mb-1">
+                      <h3 className="text-xs sm:text-base font-medium text-gray-900 line-clamp-2 mb-1">
                         {product.name}
                       </h3>
                       <p className="text-xs text-gray-500">{product.brand}</p>
@@ -827,7 +827,7 @@ const ProductsContent = () => {
 
                     {/* Price */}
                     <div className="flex items-center mb-3">
-                      <span className="text-sm font-bold text-gray-900">
+                      <span className="text-sm sm:text-lg font-bold text-gray-900">
                         ${product.price.toFixed(2)}
                       </span>
                       {product.originalPrice && (
@@ -844,7 +844,7 @@ const ProductsContent = () => {
                         handleAddToCart(product);
                       }}
                       disabled={!product.inStock}
-                      className={`w-full py-1 px-3 sm:py-3  rounded-md text-xs font-medium transition-colors duration-200 ${
+                      className={`w-full py-1 px-3 sm:py-3 rounded-md text-xs sm:text-base font-medium transition-colors duration-200 ${
                         product.inStock
                           ? "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                           : "bg-gray-300 text-gray-500 cursor-not-allowed"

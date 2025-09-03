@@ -494,18 +494,18 @@ const ProductDetailPage = () => {
 
           {/* Product info */}
           <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-lg sm:text-3xl font-bold tracking-tight text-gray-900">
               {product.name}
             </h1>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
               <div className="flex items-center space-x-2">
-                <p className="text-3xl tracking-tight text-gray-900 font-bold">
+                <p className="text-lg sm:text-3xl tracking-tight text-gray-900 font-bold">
                   ${totalPrice.toFixed(2)}
                 </p>
                 {product.originalPrice && (
-                  <p className="text-xl text-gray-500 line-through">
+                  <p className="text-lg sm:text-xl text-gray-500 line-through">
                     ${(product.originalPrice * quantity).toFixed(2)}
                   </p>
                 )}
@@ -571,8 +571,8 @@ const ProductDetailPage = () => {
 
             {/* Description */}
             <div className="mt-6">
-              <h3 className="text-sm font-medium text-gray-900">Description</h3>
-              <div className="mt-4 prose prose-sm text-gray-600">
+              <h3 className="text-md font-medium text-gray-900">Description</h3>
+              <div className="text-sm sm:text-base mt-2 prose prose-sm text-gray-600">
                 <p>{product.description}</p>
               </div>
             </div>
@@ -680,7 +680,7 @@ const ProductDetailPage = () => {
                     )}
                   </div>
                   <div className="p-4">
-                    <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1">
+                    <h3 className="text-sm sm:text-base font-medium text-gray-900 line-clamp-2 mb-1">
                       {relatedProduct.name}
                     </h3>
                     <p className="text-xs text-gray-500 mb-2">
@@ -717,6 +717,21 @@ const ProductDetailPage = () => {
                         </span>
                       )}
                     </div>
+                    {/* Add to Cart Button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddToCart(product);
+                      }}
+                      disabled={!product.inStock}
+                      className={`w-full py-1 px-3 sm:py-3 rounded-md text-xs sm:text-base font-medium transition-colors duration-200 ${
+                        product.inStock
+                          ? "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      }`}
+                    >
+                      {product.inStock ? "Add to Cart" : "Out of Stock"}
+                    </button>
                   </div>
                 </Link>
               ))}
