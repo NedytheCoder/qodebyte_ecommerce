@@ -827,7 +827,7 @@ const ProductsContent = () => {
 
                     {/* Price */}
                     <div className="flex items-center mb-3">
-                      <span className="text-lg font-bold text-gray-900">
+                      <span className="text-sm font-bold text-gray-900">
                         ${product.price.toFixed(2)}
                       </span>
                       {product.originalPrice && (

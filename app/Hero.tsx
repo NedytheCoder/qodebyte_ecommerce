@@ -22,10 +22,10 @@ const Hero = ({
       <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-24">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
               Welcome to the Future of Shopping
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-blue-100 max-w-3xl mx-auto px-4">
+            <p className="text-sm sm:text-xl md:text-2xl mb-6 sm:mb-8 text-blue-100 max-w-3xl mx-auto px-4">
               Discover amazing deals on the latest tech products
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
@@ -59,10 +59,10 @@ const Hero = ({
                 onClick={() => handleCategoryClick(category)}
                 className="group cursor-pointer bg-gray-50 rounded-xl p-6 sm:p-8 text-center hover:bg-blue-50 hover:shadow-lg transition-all duration-300"
               >
-                <div className="text-3xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                <div className="text-2xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
                   {category.icon}
                 </div>
-                <h3 className="text-md sm:text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-sm sm:text-xl font-semibold text-gray-900 mb-2">
                   {category.name}
                 </h3>
                 <p className="text-[10px] sm:text-base text-gray-600">
@@ -88,10 +88,10 @@ const Hero = ({
                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow"
               >
                 <div className="p-4 sm:p-6 text-center">
-                  <div className="text-4xl sm:text-7xl lg:text-8xl mb-3 sm:mb-4">
+                  <div className="text-3xl sm:text-7xl lg:text-8xl mb-3 sm:mb-4">
                     {product.image}
                   </div>
-                  <h3 className="text-sm sm:text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-xs sm:text-lg font-semibold text-gray-900 mb-2">
                     {product.name}
                   </h3>
                   <p className="text-xs sm:text-sm text-gray-600 mb-3">
@@ -118,12 +118,12 @@ const Hero = ({
                       </span>
                     </div>
                   </div>
-                  <div className="text-lg sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
+                  <div className="text-[15px] sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
                     ${product.price}
                   </div>
                   <button
                     onClick={() => onAddToCart(product)}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-colors"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-1 sm:py-2.5 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-colors"
                   >
                     Add to Cart
                   </button>
