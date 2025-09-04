@@ -7,6 +7,8 @@ import Nav from "../nav/Nav";
 import { useAppContext } from "../context/AppContext";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Link from "next/link";
+import { showToast } from "../components/Toast";
+import axios from "axios";
 
 const ProductsContent = () => {
   const {
@@ -212,9 +214,217 @@ const ProductsContent = () => {
         description: "High-speed USB-C charging cable",
         inStock: true,
       },
+      {
+        id: 17,
+        name: "Wireless Bluetooth Headphones",
+        price: 89.99,
+        originalPrice: 129.99,
+        discount: 31,
+        image: "/headphones.jpg",
+        category: "Electronics",
+        brand: "SoundMax",
+        rating: 4.5,
+        description: "High-quality wireless headphones with noise cancellation",
+        inStock: true,
+      },
+      {
+        id: 18,
+        name: "Smart Fitness Watch",
+        price: 199.99,
+        image: "/smartwatch.jpg",
+        category: "Electronics",
+        brand: "FitTech",
+        rating: 4.3,
+        description: "Advanced fitness tracking with heart rate monitor",
+        inStock: true,
+      },
+      {
+        id: 19,
+        name: "Wireless Charging Pad",
+        price: 34.99,
+        image: "/charger.jpg",
+        category: "Electronics",
+        brand: "PowerTech",
+        rating: 4.2,
+        description: "Fast wireless charging pad for smartphones",
+        inStock: true,
+      },
+      {
+        id: 20,
+        name: "Bluetooth Speaker",
+        price: 79.99,
+        image: "/speaker.jpg",
+        category: "Electronics",
+        brand: "SoundMax",
+        rating: 4.4,
+        description: "Portable waterproof bluetooth speaker",
+        inStock: true,
+      },
+      {
+        id: 21,
+        name: "Gaming Mouse",
+        price: 59.99,
+        image: "/mouse.jpg",
+        category: "Electronics",
+        brand: "PowerTech",
+        rating: 4.6,
+        description: "High-precision gaming mouse with RGB lighting",
+        inStock: true,
+      },
+
+      // Clothing Category
+      {
+        id: 22,
+        name: "Organic Cotton T-Shirt",
+        price: 24.99,
+        image: "/tshirt.jpg",
+        category: "Clothing",
+        brand: "EcoWear",
+        rating: 4.7,
+        description: "Comfortable organic cotton t-shirt",
+        inStock: true,
+      },
+      {
+        id: 23,
+        name: "Denim Jeans",
+        price: 89.99,
+        image: "/jeans.jpg",
+        category: "Clothing",
+        brand: "EcoWear",
+        rating: 4.5,
+        description: "Classic fit denim jeans",
+        inStock: true,
+      },
+      {
+        id: 24,
+        name: "Winter Jacket",
+        price: 149.99,
+        image: "/jacket.jpg",
+        category: "Clothing",
+        brand: "EcoWear",
+        rating: 4.8,
+        description: "Warm and stylish winter jacket",
+        inStock: true,
+      },
+
+      // Home & Garden Category
+      {
+        id: 25,
+        name: "Stainless Steel Water Bottle",
+        price: 19.99,
+        image: "/waterbottle.jpg",
+        category: "Home & Garden",
+        brand: "HydroLife",
+        rating: 4.6,
+        description: "Insulated water bottle keeps drinks cold for 24 hours",
+        inStock: false,
+      },
+      {
+        id: 26,
+        name: "Garden Tool Set",
+        price: 45.99,
+        image: "/tools.jpg",
+        category: "Home & Garden",
+        brand: "HydroLife",
+        rating: 4.3,
+        description: "Complete set of essential garden tools",
+        inStock: true,
+      },
+      {
+        id: 27,
+        name: "Indoor Plant Pot",
+        price: 29.99,
+        image: "/pot.jpg",
+        category: "Home & Garden",
+        brand: "HydroLife",
+        rating: 4.1,
+        description: "Beautiful ceramic plant pot for indoor plants",
+        inStock: true,
+      },
+
+      // Accessories Category
+      {
+        id: 28,
+        name: "Leather Wallet",
+        price: 49.99,
+        image: "/wallet.jpg",
+        category: "Accessories",
+        brand: "LeatherCraft",
+        rating: 4.8,
+        description: "Genuine leather wallet with RFID protection",
+        inStock: true,
+      },
+      {
+        id: 29,
+        name: "Sunglasses",
+        price: 129.99,
+        image: "/sunglasses.jpg",
+        category: "Accessories",
+        brand: "LeatherCraft",
+        rating: 4.7,
+        description: "Premium polarized sunglasses",
+        inStock: true,
+      },
+      {
+        id: 30,
+        name: "Watch Band",
+        price: 34.99,
+        image: "/watchband.jpg",
+        category: "Accessories",
+        brand: "LeatherCraft",
+        rating: 4.4,
+        description: "Replaceable leather watch band",
+        inStock: true,
+      },
+
+      // Additional products to cover all brands
+      {
+        id: 31,
+        name: "Smart Home Hub",
+        price: 199.99,
+        image: "/hub.jpg",
+        category: "Electronics",
+        brand: "FitTech",
+        rating: 4.2,
+        description: "Central hub for smart home automation",
+        inStock: true,
+      },
+      {
+        id: 32,
+        name: "USB-C Cable",
+        price: 12.99,
+        image: "/cable.jpg",
+        category: "Electronics",
+        brand: "PowerTech",
+        rating: 4.0,
+        description: "High-speed USB-C charging cable",
+        inStock: true,
+      },
+      {
+        id: 33,
+        name: "USB-C Cable",
+        price: 12.99,
+        image: "/cable.jpg",
+        category: "Electronics",
+        brand: "PowerTech",
+        rating: 4.0,
+        description: "High-speed USB-C charging cable",
+        inStock: true,
+      },
     ],
     []
   );
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      await axios
+        .get(process.env.NEXT_PUBLIC_API_BASE_URL + "/api/products")
+        .then((res) => {
+          console.log(res.data);
+        });
+    };
+    fetchProducts();
+  }, []);
 
   const categories = [
     "Electronics",
@@ -241,6 +451,8 @@ const ProductsContent = () => {
 
   // const [products, setProducts] = useState<Product[]>(mockProducts);
   const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8; // Show 8 products per page
 
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(mockProducts);
@@ -766,96 +978,197 @@ const ProductsContent = () => {
 
             {/* Product Grid */}
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden cursor-pointer"
-                  onClick={() => {
-                    window.location.href = `/products/${product.id}`;
-                  }}
-                >
-                  {/* Product Image */}
-                  <div className="aspect-square bg-gray-200 relative overflow-hidden">
-                    <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                      <span className="text-gray-500 text-sm">
-                        Product Image
-                      </span>
-                    </div>
-                    {product.discount && (
-                      <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                        -{product.discount}%
-                      </div>
-                    )}
-                    {!product.inStock && (
-                      <div className="absolute top-2 right-2 bg-gray-500 text-white text-xs px-2 py-1 rounded">
-                        Out of Stock
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Product Info */}
-                  <div className="p-4">
-                    <div className="mb-2">
-                      <h3 className="text-xs sm:text-base font-medium text-gray-900 line-clamp-2 mb-1">
-                        {product.name}
-                      </h3>
-                      <p className="text-xs text-gray-500">{product.brand}</p>
-                    </div>
-
-                    {/* Rating */}
-                    <div className="flex items-center mb-2">
-                      <div className="flex items-center">
-                        {[...Array(5)].map((_, i) => (
-                          <svg
-                            key={i}
-                            className={`h-3 w-3 ${
-                              i < Math.floor(product.rating)
-                                ? "text-yellow-400"
-                                : "text-gray-300"
-                            }`}
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                      </div>
-                      <span className="ml-1 text-xs text-gray-600">
-                        ({product.rating})
-                      </span>
-                    </div>
-
-                    {/* Price */}
-                    <div className="flex items-center mb-3">
-                      <span className="text-sm sm:text-lg font-bold text-gray-900">
-                        ${product.price.toFixed(2)}
-                      </span>
-                      {product.originalPrice && (
-                        <span className="ml-2 text-[10px] sm:text-md text-gray-500 line-through">
-                          ${product.originalPrice.toFixed(2)}
+              {filteredProducts
+                .slice(
+                  (currentPage - 1) * itemsPerPage,
+                  currentPage * itemsPerPage
+                )
+                .map((product) => (
+                  <div
+                    key={product.id}
+                    className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden cursor-pointer"
+                    onClick={() => {
+                      window.location.href = `/products/${product.id}`;
+                    }}
+                  >
+                    {/* Product Image */}
+                    <div className="aspect-square bg-gray-200 relative overflow-hidden">
+                      <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                        <span className="text-gray-500 text-sm">
+                          Product Image
                         </span>
+                      </div>
+                      {product.discount && (
+                        <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
+                          -{product.discount}%
+                        </div>
+                      )}
+                      {!product.inStock && (
+                        <div className="absolute top-2 right-2 bg-gray-500 text-white text-xs px-2 py-1 rounded">
+                          Out of Stock
+                        </div>
                       )}
                     </div>
 
-                    {/* Add to Cart Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleAddToCart(product);
-                      }}
-                      disabled={!product.inStock}
-                      className={`w-full py-1 px-3 sm:py-3 rounded-md text-xs sm:text-base font-medium transition-colors duration-200 ${
-                        product.inStock
-                          ? "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      }`}
-                    >
-                      {product.inStock ? "Add to Cart" : "Out of Stock"}
-                    </button>
+                    {/* Product Info */}
+                    <div className="p-4">
+                      <div className="mb-2">
+                        <h3 className="text-xs sm:text-base font-medium text-gray-900 line-clamp-2 mb-1">
+                          {product.name}
+                        </h3>
+                        <p className="text-xs text-gray-500">{product.brand}</p>
+                      </div>
+
+                      {/* Rating */}
+                      <div className="flex items-center mb-2">
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, i) => (
+                            <svg
+                              key={i}
+                              className={`h-3 w-3 ${
+                                i < Math.floor(product.rating)
+                                  ? "text-yellow-400"
+                                  : "text-gray-300"
+                              }`}
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ))}
+                        </div>
+                        <span className="ml-1 text-xs text-gray-600">
+                          ({product.rating})
+                        </span>
+                      </div>
+
+                      {/* Price */}
+                      <div className="flex items-center mb-3">
+                        <span className="text-sm sm:text-lg font-bold text-gray-900">
+                          ${product.price.toFixed(2)}
+                        </span>
+                        {product.originalPrice && (
+                          <span className="ml-2 text-[10px] sm:text-md text-gray-500 line-through">
+                            ${product.originalPrice.toFixed(2)}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Add to Cart Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAddToCart(product);
+                          showToast({
+                            message: `${product.name} added to cart`,
+                            type: "success",
+                          });
+                        }}
+                        disabled={!product.inStock}
+                        className={`w-full py-1 px-3 sm:py-3 rounded-md text-xs sm:text-base font-medium transition-colors duration-200 ${
+                          product.inStock
+                            ? "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        }`}
+                      >
+                        {product.inStock ? "Add to Cart" : "Out of Stock"}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
+
+            {/* Pagination */}
+            {filteredProducts.length > itemsPerPage && (
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-sm text-gray-600">
+                  Showing{" "}
+                  {Math.min(
+                    (currentPage - 1) * itemsPerPage + 1,
+                    filteredProducts.length
+                  )}
+                  -
+                  {Math.min(
+                    currentPage * itemsPerPage,
+                    filteredProducts.length
+                  )}{" "}
+                  of {filteredProducts.length} products
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage((prev) => prev - 1)}
+                    disabled={currentPage === 1}
+                    className="px-3 py-1 border rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                  >
+                    Previous
+                  </button>
+
+                  <div className="flex items-center gap-1">
+                    {Array.from({
+                      length: Math.ceil(filteredProducts.length / itemsPerPage),
+                    }).map((_, index) => {
+                      const pageNumber = index + 1;
+                      // Show first, last, and pages around current page
+                      if (
+                        pageNumber === 1 ||
+                        pageNumber ===
+                          Math.ceil(filteredProducts.length / itemsPerPage) ||
+                        Math.abs(pageNumber - currentPage) <= 1
+                      ) {
+                        return (
+                          <button
+                            key={pageNumber}
+                            onClick={() => setCurrentPage(pageNumber)}
+                            className={`w-8 h-8 flex items-center justify-center rounded-md text-sm ${
+                              currentPage === pageNumber
+                                ? "bg-blue-600 text-white"
+                                : "border hover:bg-gray-50"
+                            }`}
+                          >
+                            {pageNumber}
+                          </button>
+                        );
+                      }
+
+                      // Show ellipsis for gaps in pagination
+                      if (
+                        (pageNumber === currentPage - 2 && currentPage > 3) ||
+                        (pageNumber === currentPage + 2 &&
+                          currentPage <
+                            Math.ceil(filteredProducts.length / itemsPerPage) -
+                              2)
+                      ) {
+                        return (
+                          <span key={pageNumber} className="px-1">
+                            ...
+                          </span>
+                        );
+                      }
+
+                      return null;
+                    })}
+                  </div>
+
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) =>
+                        Math.min(
+                          prev + 1,
+                          Math.ceil(filteredProducts.length / itemsPerPage)
+                        )
+                      )
+                    }
+                    disabled={
+                      currentPage ===
+                      Math.ceil(filteredProducts.length / itemsPerPage)
+                    }
+                    className="px-3 py-1 border rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* No Results */}
             {filteredProducts.length === 0 && (

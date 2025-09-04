@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "./context/AppContext";
 import Footer from "./Footer";
+import ToastProvider from "./components/Toast";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${font.variable} antialiased`}>
         <AppProvider>
+          <ToastProvider />
           {children}
           <Footer />
         </AppProvider>

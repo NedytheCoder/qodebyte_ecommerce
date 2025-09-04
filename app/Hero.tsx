@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Product, Category } from "./types";
 import Link from "next/link";
+import { showToast } from "./components/Toast";
 
 interface HeroProps {
   featuredCategories: Category[];
@@ -127,6 +128,10 @@ const Hero = ({
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent the click from bubbling up to the parent div
                       onAddToCart(product);
+                      showToast({
+                        message: `${product.name} added to cart!`,
+                        type: "success",
+                      });
                     }}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-1 sm:py-2.5 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-colors"
                   >
