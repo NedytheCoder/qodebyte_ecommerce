@@ -5,6 +5,7 @@ import { useAppContext } from "../context/AppContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import Footer from "../Footer";
 
 const Cart = () => {
   const { cartItems, handleUpdateQuantity, handleRemoveFromCart } =
@@ -120,7 +121,7 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-2 sm:px-4">
+      <div className="max-w-6xl mx-auto px-2 mb-2 sm:px-4">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">
           Shopping Cart
         </h1>
@@ -213,10 +214,11 @@ const Cart = () => {
                         <div className="flex items-center space-x-3">
                           <div className="relative w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                             <Image
-                              src={item.product.image}
-                              alt={item.product.name}
+                              src="/placeholder-product.jpg"
+                              alt={item.product.name || "Product image"}
                               fill
                               className="object-cover"
+                              sizes="(max-width: 768px) 100vw, 50vw"
                             />
                           </div>
                           <div>
@@ -437,6 +439,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

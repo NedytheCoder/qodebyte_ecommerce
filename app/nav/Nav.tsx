@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Product, Category } from "../types";
 import Link from "next/link";
 import { BsCart3 } from "react-icons/bs";
@@ -33,6 +33,24 @@ const Nav = ({
 }: NavProps) => {
   const [check, setChecked] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = window.sessionStorage.getItem("token");
+      const userId = window.sessionStorage.getItem("userId");
+      const email = window.sessionStorage.getItem("email");
+      const name = window.sessionStorage.getItem("name");
+      setToken(token);
+      setUserId(userId);
+      setEmail(email);
+      setName(name);
+    }
+  }, []);
+
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
+
   return (
     <header
       className="bg-white shadow-sm sticky top-0 z-50"
@@ -57,7 +75,10 @@ const Nav = ({
                 </span>
               )}
             </Link>
-            <Link href="/registration/login" className="text-blue-600 relative">
+            <Link
+              href={userId === null ? "/registration/login" : `/user/${userId}`}
+              className="text-blue-600 relative"
+            >
               <FaRegUserCircle size={24} />
             </Link>
             <div className="md:hidden">
@@ -178,18 +199,29 @@ const Nav = ({
               </Link>
 
               {/* Auth buttons */}
-              <Link
-                href="/registration/login"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium"
-              >
-                Login
-              </Link>
-              <Link
-                href="/registration/signup"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-              >
-                Register
-              </Link>
+              {!userId ? (
+                <>
+                  <Link
+                    href="/registration/login"
+                    className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/registration/signup"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Register
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  href={`/user/${userId}`}
+                  className="text-blue-600 relative"
+                >
+                  <FaRegUserCircle size={24} />
+                </Link>
+              )}
             </div>
           </div>
           {/* NAV FOR MOBILE PHONES */}
@@ -203,21 +235,26 @@ const Nav = ({
               className={`absolute w-[80%] bg-white left-0 p-5 flex flex-col gap-5 transition-all z-55`}
             >
               <div className="flex flex-col gap-3">
-                <div className="flex gap-2">
-                  <Link
-                    href="/registration/login"
-                    className="text-gray-700 hover:text-blue-600 px-3 py-1 text-sm font-light border border-blue-600 rounded-md"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/registration/signup"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md text-sm font-light transition-colors"
-                  >
-                    Register
-                  </Link>
-                </div>
-                <hr className="border border-gray-200 my-2" />
+                {!token && (
+                  <>
+                    <div className="flex gap-2">
+                      <Link
+                        href="/registration/login"
+                        className="text-gray-700 hover:text-blue-600 px-3 py-1 text-sm font-light border border-blue-600 rounded-md"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        href="/registration/signup"
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md text-sm font-light transition-colors"
+                      >
+                        Register
+                      </Link>
+                    </div>
+                    <hr className="border border-gray-200 my-2" />
+                  </>
+                )}
+
                 <h3 className="text-md font-semibold">Our Categories</h3>
                 {featuredCategories.map((category) => (
                   <button

@@ -4,6 +4,7 @@ import Nav from "./nav/Nav";
 import Hero from "./Hero";
 import { Product } from "./types";
 import { useAppContext } from "./context/AppContext";
+import Footer from "./Footer";
 
 export default function Home() {
   const {
@@ -90,7 +91,12 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen">
+    <main
+      className="min-h-screen"
+      onClick={() => {
+        isCategoriesOpen ? setIsCategoriesOpen(false) : null;
+      }}
+    >
       <Nav
         featuredCategories={featuredCategories}
         cartCount={cartCount}
@@ -110,6 +116,7 @@ export default function Home() {
         onAddToCart={handleAddToCart}
         handleCategoryClick={handleCategoryClick}
       />
+      <Footer />
     </main>
   );
 }

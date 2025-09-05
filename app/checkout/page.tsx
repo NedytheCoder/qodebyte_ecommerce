@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import Image from "next/image";
 import Link from "next/link";
+import Footer from "../Footer";
 
 interface CustomerInfo {
   name: string;
@@ -561,7 +562,7 @@ const Checkout = () => {
         </div>
 
         {/* Back to Cart */}
-        <div className="mt-8">
+        <div className="mt-8 mb-8">
           <Link
             href="/cart"
             className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
@@ -570,6 +571,7 @@ const Checkout = () => {
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

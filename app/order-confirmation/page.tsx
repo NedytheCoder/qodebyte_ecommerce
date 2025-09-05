@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Footer from "../Footer";
 
 const OrderConfirmation = () => {
   // Generate a random order number for demo purposes
@@ -156,6 +157,7 @@ const OrderConfirmation = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

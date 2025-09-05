@@ -6,6 +6,7 @@ import { Product } from "../../types";
 import Nav from "../../nav/Nav";
 import { useAppContext } from "../../context/AppContext";
 import Link from "next/link";
+import Footer from "@/app/Footer";
 
 const ProductDetailPage = () => {
   const params = useParams();
@@ -866,6 +867,7 @@ const ProductDetailPage = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

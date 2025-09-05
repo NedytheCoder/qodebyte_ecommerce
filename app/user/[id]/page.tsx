@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import Footer from "@/app/Footer";
 
 interface UserProfile {
   id: string;
@@ -31,8 +32,10 @@ interface Order {
 const UserAccount = () => {
   const params = useParams();
   const userId = params.id as string;
-  
-  const [activeTab, setActiveTab] = useState<"dashboard" | "orders" | "profile">("dashboard");
+
+  const [activeTab, setActiveTab] = useState<
+    "dashboard" | "orders" | "profile"
+  >("dashboard");
   const [isEditing, setIsEditing] = useState(false);
 
   // Mock user data
@@ -44,7 +47,7 @@ const UserAccount = () => {
     address: "123 Main Street, Apt 4B",
     city: "New York",
     zipCode: "10001",
-    joinDate: "2023-01-15"
+    joinDate: "2023-01-15",
   });
 
   const [editProfile, setEditProfile] = useState<UserProfile>(userProfile);
@@ -57,10 +60,20 @@ const UserAccount = () => {
       status: "delivered",
       total: 299.97,
       items: [
-        { name: "Wireless Bluetooth Headphones", quantity: 1, price: 89.99, image: "/headphones.jpg" },
-        { name: "Smart Fitness Watch", quantity: 1, price: 199.99, image: "/smartwatch.jpg" },
-        { name: "USB-C Cable", quantity: 1, price: 12.99, image: "/cable.jpg" }
-      ]
+        {
+          name: "Wireless Bluetooth Headphones",
+          quantity: 1,
+          price: 89.99,
+          image: "/headphones.jpg",
+        },
+        {
+          name: "Smart Fitness Watch",
+          quantity: 1,
+          price: 199.99,
+          image: "/smartwatch.jpg",
+        },
+        { name: "USB-C Cable", quantity: 1, price: 12.99, image: "/cable.jpg" },
+      ],
     },
     {
       id: "ORD-2024-002",
@@ -68,9 +81,14 @@ const UserAccount = () => {
       status: "shipped",
       total: 149.98,
       items: [
-        { name: "Organic Cotton T-Shirt", quantity: 2, price: 24.99, image: "/tshirt.jpg" },
-        { name: "Denim Jeans", quantity: 1, price: 89.99, image: "/jeans.jpg" }
-      ]
+        {
+          name: "Organic Cotton T-Shirt",
+          quantity: 2,
+          price: 24.99,
+          image: "/tshirt.jpg",
+        },
+        { name: "Denim Jeans", quantity: 1, price: 89.99, image: "/jeans.jpg" },
+      ],
     },
     {
       id: "ORD-2024-003",
@@ -78,19 +96,30 @@ const UserAccount = () => {
       status: "processing",
       total: 79.99,
       items: [
-        { name: "Bluetooth Speaker", quantity: 1, price: 79.99, image: "/speaker.jpg" }
-      ]
-    }
+        {
+          name: "Bluetooth Speaker",
+          quantity: 1,
+          price: 79.99,
+          image: "/speaker.jpg",
+        },
+      ],
+    },
   ];
 
   const getStatusColor = (status: Order["status"]) => {
     switch (status) {
-      case "delivered": return "bg-green-100 text-green-800";
-      case "shipped": return "bg-blue-100 text-blue-800";
-      case "processing": return "bg-yellow-100 text-yellow-800";
-      case "pending": return "bg-gray-100 text-gray-800";
-      case "cancelled": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "delivered":
+        return "bg-green-100 text-green-800";
+      case "shipped":
+        return "bg-blue-100 text-blue-800";
+      case "processing":
+        return "bg-yellow-100 text-yellow-800";
+      case "pending":
+        return "bg-gray-100 text-gray-800";
+      case "cancelled":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -102,9 +131,9 @@ const UserAccount = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEditProfile(prev => ({
+    setEditProfile((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -112,8 +141,12 @@ const UserAccount = () => {
     <div className="space-y-6">
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 text-white">
-        <h2 className="text-2xl font-bold mb-2">Welcome back, {userProfile.name}!</h2>
-        <p className="text-blue-100">Member since {new Date(userProfile.joinDate).toLocaleDateString()}</p>
+        <h2 className="text-2xl font-bold mb-2">
+          Welcome back, {userProfile.name}!
+        </h2>
+        <p className="text-blue-100">
+          Member since {new Date(userProfile.joinDate).toLocaleDateString()}
+        </p>
       </div>
 
       {/* Quick Stats */}
@@ -121,13 +154,25 @@ const UserAccount = () => {
         <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
           <div className="flex items-center">
             <div className="p-3 bg-blue-100 rounded-lg">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              <svg
+                className="w-6 h-6 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                />
               </svg>
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total Orders</p>
-              <p className="text-2xl font-bold text-gray-900">{orders.length}</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {orders.length}
+              </p>
             </div>
           </div>
         </div>
@@ -135,14 +180,25 @@ const UserAccount = () => {
         <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
           <div className="flex items-center">
             <div className="p-3 bg-green-100 rounded-lg">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+              <svg
+                className="w-6 h-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                />
               </svg>
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total Spent</p>
               <p className="text-2xl font-bold text-gray-900">
-                ${orders.reduce((sum, order) => sum + order.total, 0).toFixed(2)}
+                $
+                {orders.reduce((sum, order) => sum + order.total, 0).toFixed(2)}
               </p>
             </div>
           </div>
@@ -151,12 +207,24 @@ const UserAccount = () => {
         <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
           <div className="flex items-center">
             <div className="p-3 bg-purple-100 rounded-lg">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              <svg
+                className="w-6 h-6 text-purple-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                />
               </svg>
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Loyalty Points</p>
+              <p className="text-sm font-medium text-gray-600">
+                Loyalty Points
+              </p>
               <p className="text-2xl font-bold text-gray-900">1,250</p>
             </div>
           </div>
@@ -165,14 +233,26 @@ const UserAccount = () => {
 
       {/* Quick Links */}
       <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Quick Actions
+        </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <button
             onClick={() => setActiveTab("orders")}
             className="p-4 text-center border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            <svg className="w-8 h-8 text-blue-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            <svg
+              className="w-8 h-8 text-blue-600 mx-auto mb-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
             </svg>
             <p className="text-sm font-medium text-gray-700">View Orders</p>
           </button>
@@ -181,22 +261,58 @@ const UserAccount = () => {
             onClick={() => setActiveTab("profile")}
             className="p-4 text-center border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            <svg className="w-8 h-8 text-green-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            <svg
+              className="w-8 h-8 text-green-600 mx-auto mb-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
             </svg>
             <p className="text-sm font-medium text-gray-700">Edit Profile</p>
           </button>
 
-          <Link href="/products" className="p-4 text-center border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-            <svg className="w-8 h-8 text-purple-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          <Link
+            href="/products"
+            className="p-4 text-center border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <svg
+              className="w-8 h-8 text-purple-600 mx-auto mb-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
             </svg>
             <p className="text-sm font-medium text-gray-700">Shop Now</p>
           </Link>
 
-          <Link href="/cart" className="p-4 text-center border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-            <svg className="w-8 h-8 text-orange-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v5a2 2 0 11-4 0v-5m4 0V8a2 2 0 00-2-2H9a2 2 0 00-2 2v5" />
+          <Link
+            href="/cart"
+            className="p-4 text-center border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <svg
+              className="w-8 h-8 text-orange-600 mx-auto mb-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v5a2 2 0 11-4 0v-5m4 0V8a2 2 0 00-2-2H9a2 2 0 00-2 2v5"
+              />
             </svg>
             <p className="text-sm font-medium text-gray-700">View Cart</p>
           </Link>
@@ -216,16 +332,27 @@ const UserAccount = () => {
         </div>
         <div className="space-y-3">
           {orders.slice(0, 3).map((order) => (
-            <div key={order.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+            <div
+              key={order.id}
+              className="flex items-center justify-between p-3 border border-gray-200 rounded-lg"
+            >
               <div>
                 <p className="font-medium text-gray-900">{order.id}</p>
-                <p className="text-sm text-gray-600">{new Date(order.date).toLocaleDateString()}</p>
+                <p className="text-sm text-gray-600">
+                  {new Date(order.date).toLocaleDateString()}
+                </p>
               </div>
               <div className="text-right">
-                <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(order.status)}`}>
+                <span
+                  className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
+                    order.status
+                  )}`}
+                >
                   {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                 </span>
-                <p className="text-sm font-medium text-gray-900 mt-1">${order.total.toFixed(2)}</p>
+                <p className="text-sm font-medium text-gray-900 mt-1">
+                  ${order.total.toFixed(2)}
+                </p>
               </div>
             </div>
           ))}
@@ -251,34 +378,57 @@ const UserAccount = () => {
 
       <div className="space-y-4">
         {orders.map((order) => (
-          <div key={order.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div
+            key={order.id}
+            className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
+          >
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">{order.id}</h3>
-                  <p className="text-sm text-gray-600">Placed on {new Date(order.date).toLocaleDateString()}</p>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {order.id}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Placed on {new Date(order.date).toLocaleDateString()}
+                  </p>
                 </div>
                 <div className="text-right">
-                  <span className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(order.status)}`}>
-                    {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                  <span
+                    className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(
+                      order.status
+                    )}`}
+                  >
+                    {order.status.charAt(0).toUpperCase() +
+                      order.status.slice(1)}
                   </span>
-                  <p className="text-lg font-bold text-gray-900 mt-1">${order.total.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-gray-900 mt-1">
+                    ${order.total.toFixed(2)}
+                  </p>
                 </div>
               </div>
 
               <div className="space-y-3">
                 {order.items.map((item, index) => (
-                  <div key={index} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg"
+                  >
                     <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
                       <span className="text-gray-500 text-xs">Image</span>
                     </div>
                     <div className="flex-1">
                       <h4 className="font-medium text-gray-900">{item.name}</h4>
-                      <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
+                      <p className="text-sm text-gray-600">
+                        Quantity: {item.quantity}
+                      </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-medium text-gray-900">${(item.price * item.quantity).toFixed(2)}</p>
-                      <p className="text-sm text-gray-600">${item.price.toFixed(2)} each</p>
+                      <p className="font-medium text-gray-900">
+                        ${(item.price * item.quantity).toFixed(2)}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        ${item.price.toFixed(2)} each
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -299,7 +449,7 @@ const UserAccount = () => {
                   )}
                 </div>
                 <p className="text-sm text-gray-600">
-                  {order.items.length} item{order.items.length > 1 ? 's' : ''}
+                  {order.items.length} item{order.items.length > 1 ? "s" : ""}
                 </p>
               </div>
             </div>
@@ -326,7 +476,9 @@ const UserAccount = () => {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Full Name
+            </label>
             {isEditing ? (
               <input
                 type="text"
@@ -341,7 +493,9 @@ const UserAccount = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address
+            </label>
             {isEditing ? (
               <input
                 type="email"
@@ -356,7 +510,9 @@ const UserAccount = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Phone Number
+            </label>
             {isEditing ? (
               <input
                 type="tel"
@@ -371,7 +527,9 @@ const UserAccount = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              City
+            </label>
             {isEditing ? (
               <input
                 type="text"
@@ -386,7 +544,9 @@ const UserAccount = () => {
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Address
+            </label>
             {isEditing ? (
               <input
                 type="text"
@@ -401,7 +561,9 @@ const UserAccount = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">ZIP Code</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              ZIP Code
+            </label>
             {isEditing ? (
               <input
                 type="text"
@@ -416,8 +578,12 @@ const UserAccount = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Member Since</label>
-            <p className="text-gray-900 py-2">{new Date(userProfile.joinDate).toLocaleDateString()}</p>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Member Since
+            </label>
+            <p className="text-gray-900 py-2">
+              {new Date(userProfile.joinDate).toLocaleDateString()}
+            </p>
           </div>
         </div>
 
@@ -444,10 +610,14 @@ const UserAccount = () => {
 
       {/* Password Change Section */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Change Password</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Change Password
+        </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Current Password
+            </label>
             <input
               type="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -455,7 +625,9 @@ const UserAccount = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              New Password
+            </label>
             <input
               type="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -463,7 +635,9 @@ const UserAccount = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Confirm New Password
+            </label>
             <input
               type="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -486,7 +660,9 @@ const UserAccount = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">My Account</h1>
-              <p className="text-gray-600 mt-1">Manage your account settings and view your order history</p>
+              <p className="text-gray-600 mt-1">
+                Manage your account settings and view your order history
+              </p>
             </div>
             <Link
               href="/"
@@ -538,6 +714,7 @@ const UserAccount = () => {
         {activeTab === "orders" && renderOrders()}
         {activeTab === "profile" && renderProfile()}
       </div>
+      <Footer />
     </div>
   );
 };

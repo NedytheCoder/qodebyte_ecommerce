@@ -74,7 +74,10 @@ const Signup = () => {
         type: "success",
       });
       sessionStorage.setItem("token", data.token);
-      router.push("/dashboard");
+      sessionStorage.setItem("userId", data.user.id);
+      sessionStorage.setItem("email", data.user.email);
+      sessionStorage.setItem("name", data.user.name);
+      router.push("/");
     } catch (error: unknown) {
       // Focus first input
       const firstInput = document.getElementById("otp-0");
@@ -179,12 +182,11 @@ const Signup = () => {
       }
     } catch (error: unknown) {
       const apiError = error as AxiosError<{ message: string }>;
-
       if (apiError.response) {
         showToast({
           message:
-            (apiError.response.data?.message || "Something went wrong") +
-            ". Login to continue",
+            apiError.response.data?.message + ". Log In!" ||
+            "Something went wrong",
           type: "error",
         });
         router.push("/registration/login");

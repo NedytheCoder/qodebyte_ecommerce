@@ -9,6 +9,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import Link from "next/link";
 import { showToast } from "../components/Toast";
 import axios from "axios";
+import Footer from "../Footer";
 
 const ProductsContent = () => {
   const {
@@ -1205,6 +1206,7 @@ const ProductsContent = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

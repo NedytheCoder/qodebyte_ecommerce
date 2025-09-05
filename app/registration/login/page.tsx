@@ -112,6 +112,9 @@ const Login = () => {
           type: "success",
         });
         sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("userId", response.data.user.id);
+        sessionStorage.setItem("email", response.data.user.email);
+        sessionStorage.setItem("name", response.data.user.name);
         setShowOtpModal(false);
         router.push("/");
       }
@@ -162,7 +165,6 @@ const Login = () => {
             type: "warning",
           });
           setShowOtpModal(true);
-          //!OTP ISN'T BEING SENT IN THE LOGIN PAGE
           setEmail(formData.email);
         });
     } catch (err) {
