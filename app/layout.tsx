@@ -3,6 +3,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "./context/AppContext";
 import ToastProvider from "./components/Toast";
+import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -25,7 +27,7 @@ export default function RootLayout({
       <body className={`${font.variable} antialiased`}>
         <AppProvider>
           <ToastProvider />
-          {children}
+          <Theme>{children}</Theme>
         </AppProvider>
       </body>
     </html>

@@ -94,7 +94,7 @@ export default function Home() {
     <main
       className="min-h-screen"
       onClick={() => {
-        isCategoriesOpen ? setIsCategoriesOpen(false) : null;
+        if (isCategoriesOpen) setIsCategoriesOpen(false);
       }}
     >
       <Nav

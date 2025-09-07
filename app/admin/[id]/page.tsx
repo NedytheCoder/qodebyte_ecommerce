@@ -3,6 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { Dialog } from "@radix-ui/themes";
+import { Button } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
+import { Text } from "@radix-ui/themes";
+import Image from "next/image";
 
 interface Product {
   id: number;
@@ -42,17 +47,25 @@ const AdminPanel = () => {
   const [activeSection, setActiveSection] = useState<
     "dashboard" | "products" | "orders" | "customers" | "reports"
   >("dashboard");
-  // const [showModal, setShowModal] = useState(false);
-  // const [modalType, setModalType] = useState<"add" | "edit" | "delete" | null>(
-  //   null
-  // );
-  // const [selectedItem, setSelectedItem] = useState<any>(null);
 
   // Mock data - initialize as empty to prevent hydration issues
   const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    price: 0,
+    stock: 0,
+    category: "",
+    status: "active",
+    brand: "QodeByte",
+    image: "",
+  });
+  // const [imagePreview, setImagePreview] = useState<string | null>(null);
+  // const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   // Load data after component mounts to prevent hydration issues
   useEffect(() => {
@@ -259,19 +272,98 @@ const AdminPanel = () => {
     }
   };
 
-  // const openModal = (type: "add" | "edit" | "delete", item?: any) => {
-  //   setModalType(type);
-  //   setSelectedItem(item || null);
-  //   setShowModal(true);
-  // };
-
-  // const closeModal = () => {
-  //   setShowModal(false);
-  //   setModalType(null);
-  //   setSelectedItem(null);
-  // };
+  const handleEditProduct = (product: Product) => {
+    setNewProduct({
+      name: product.name,
+      price: product.price,
+      stock: product.stock,
+      category: product.category,
+      status: product.status,
+      brand: product.brand,
+      image: product.image,
+    });
+    setEditingProduct(product);
+    setShowAddModal(true);
+  };
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleAddProduct = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (
+      !newProduct.name ||
+      newProduct.price <= 0 ||
+      newProduct.stock < 0 ||
+      !newProduct.category ||
+      !newProduct.image
+    ) {
+      alert("Please fill in all required fields with valid values");
+      return;
+    }
+
+    if (editingProduct) {
+      // Update existing product
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === editingProduct.id
+            ? {
+                ...newProduct,
+                id: editingProduct.id,
+                status: newProduct.status as "active" | "inactive",
+              }
+            : p
+        )
+      );
+      setEditingProduct(null);
+    } else {
+      // Add new product
+      setProducts((prev) => [
+        ...prev,
+        {
+          id: prev.length > 0 ? Math.max(...prev.map((p) => p.id)) + 1 : 1,
+          name: newProduct.name,
+          price: newProduct.price,
+          category: newProduct.category,
+          brand: newProduct.brand,
+          stock: newProduct.stock,
+          status: "active",
+          image: "/wallet.jpg",
+        },
+      ]);
+    }
+
+    // Reset the form and close the modal
+    setNewProduct({
+      name: "",
+      price: 0,
+      stock: 0,
+      category: "",
+      status: "active",
+      brand: "QodeByte",
+      image: "",
+    });
+
+    setShowAddModal(false);
+
+    // Show success message
+    alert("Product added successfully!");
+  };
+
+  const handleDeleteProduct = (productId: number) => {
+    setProducts((prev) => prev.filter((p) => p.id !== productId));
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setNewProduct((prev) => ({
+      ...prev,
+      [name]: name === "price" || name === "stock" ? Number(value) : value,
+    }));
+  };
 
   const renderSidebar = () => (
     <>
@@ -711,7 +803,7 @@ const AdminPanel = () => {
                   Product Management
                 </h2>
                 <button
-                  // onClick={() => openModal("add")}
+                  onClick={() => setShowAddModal(true)}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
                 >
                   Add Product
@@ -731,9 +823,12 @@ const AdminPanel = () => {
                           <span className="text-gray-500 text-xs">IMG</span>
                         </div>
                         <div>
-                          <div className="text-sm font-medium text-gray-900">
+                          <Link
+                            href={`/admin/product/${product.id}`}
+                            className="text-sm font-medium text-blue-600 hover:text-blue-900"
+                          >
                             {product.name}
-                          </div>
+                          </Link>
                           <div className="text-xs text-gray-500">
                             {product.brand}
                           </div>
@@ -781,19 +876,46 @@ const AdminPanel = () => {
                           {product.stock}
                         </div>
                       </div>
-                      <div className="flex space-x-2">
+                      <div className="flex space-x-2 items-center">
                         <button
-                          // onClick={() => openModal("edit", product)}
+                          onClick={() => handleEditProduct(product)}
                           className="text-blue-600 hover:text-blue-900 text-sm"
                         >
                           Edit
                         </button>
-                        <button
-                          // onClick={() => openModal("delete", product)}
-                          className="text-red-600 hover:text-red-900 text-sm"
-                        >
-                          Delete
-                        </button>
+                        <Dialog.Root>
+                          <Dialog.Trigger>
+                            <Text color="red" className="cursor-pointer">
+                              Delete
+                            </Text>
+                          </Dialog.Trigger>
+
+                          <Dialog.Content maxWidth="450px">
+                            <Dialog.Title>Delete Product</Dialog.Title>
+                            <Dialog.Description size="2" mb="4">
+                              Are you sure you want to delete {product.name}?
+                            </Dialog.Description>
+
+                            <Flex gap="3" mt="4" justify="end">
+                              <Dialog.Close>
+                                <Button variant="soft" color="gray">
+                                  Cancel
+                                </Button>
+                              </Dialog.Close>
+                              <Dialog.Close>
+                                <Button
+                                  color="red"
+                                  className="cursor-pointer"
+                                  onClick={() =>
+                                    handleDeleteProduct(product.id)
+                                  }
+                                >
+                                  Yes, Delete
+                                </Button>
+                              </Dialog.Close>
+                            </Flex>
+                          </Dialog.Content>
+                        </Dialog.Root>
                       </div>
                     </div>
                   </div>
@@ -837,9 +959,12 @@ const AdminPanel = () => {
                                 </span>
                               </div>
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
+                                <Link
+                                  href={`/admin/product/${product.id}`}
+                                  className="text-sm font-medium text-blue-600 hover:text-blue-900"
+                                >
                                   {product.name}
-                                </div>
+                                </Link>
                                 <div className="text-sm text-gray-500">
                                   {product.brand}
                                 </div>
@@ -885,17 +1010,45 @@ const AdminPanel = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             <button
-                              // onClick={() => openModal("edit", product)}
+                              onClick={() => handleEditProduct(product)}
                               className="text-blue-600 hover:text-blue-900"
                             >
                               Edit
                             </button>
-                            <button
-                              // onClick={() => openModal("delete", product)}
-                              className="text-red-600 hover:text-red-900"
-                            >
-                              Delete
-                            </button>
+                            <Dialog.Root>
+                              <Dialog.Trigger>
+                                <Text color="red" className="cursor-pointer">
+                                  Delete
+                                </Text>
+                              </Dialog.Trigger>
+
+                              <Dialog.Content maxWidth="450px">
+                                <Dialog.Title>Delete Product</Dialog.Title>
+                                <Dialog.Description size="2" mb="4">
+                                  Are you sure you want to delete {product.name}
+                                  ?
+                                </Dialog.Description>
+
+                                <Flex gap="3" mt="4" justify="end">
+                                  <Dialog.Close>
+                                    <Button variant="soft" color="gray">
+                                      Cancel
+                                    </Button>
+                                  </Dialog.Close>
+                                  <Dialog.Close>
+                                    <Button
+                                      color="red"
+                                      className="cursor-pointer"
+                                      onClick={() =>
+                                        handleDeleteProduct(product.id)
+                                      }
+                                    >
+                                      Yes, Delete
+                                    </Button>
+                                  </Dialog.Close>
+                                </Flex>
+                              </Dialog.Content>
+                            </Dialog.Root>
                           </td>
                         </tr>
                       ))}
@@ -1489,6 +1642,157 @@ const AdminPanel = () => {
               </div>
             </div>
           )}
+        </div>
+      </div>
+
+      <div
+        className={`addproductModal fixed left-0 right-0 bottom-0 z-50 w-full h-full bg-[rgba(0,0,0,0.5)] flex items-center justify-center ${
+          showAddModal ? "top-0" : "-top-full"
+        } transition-all`}
+      >
+        <div className="modal-content bg-white p-6 rounded-lg shadow-lg relative w-[90%] md:w-[80%] lg:w-[60%] max-h-[90vh] overflow-y-auto">
+          <span
+            className="close cursor-pointer absolute top-2 right-3 text-5xl"
+            onClick={() => {
+              setShowAddModal(false);
+              setEditingProduct(null);
+              setNewProduct({
+                name: "",
+                price: 0,
+                stock: 0,
+                category: "",
+                status: "active",
+                brand: "QodeByte",
+                image: "",
+              });
+            }}
+          >
+            &times;
+          </span>
+          <h2 className="text-2xl font-bold mb-4">
+            {editingProduct ? "Edit Product" : "Add New Product"}
+          </h2>
+          <form className="flex flex-col gap-4" onSubmit={handleAddProduct}>
+            {/* Image Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Product Image
+              </label>
+              <div className="mt-1 flex items-center">
+                <div className="h-24 w-24 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
+                  {newProduct.image ? (
+                    <Image
+                      src={newProduct.image}
+                      alt="Product preview"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <svg
+                      className="h-12 w-12 text-gray-300"
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 48 48"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <div className="ml-4">
+                  <label
+                    htmlFor="image-upload"
+                    className="px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
+                  >
+                    {newProduct.image ? "Change" : "Upload"}
+                    <input
+                      id="image-upload"
+                      name="image"
+                      type="file"
+                      className="sr-only"
+                      required
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setNewProduct((prev) => ({
+                              ...prev,
+                              image: reader.result as string,
+                            }));
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      accept="image/*"
+                    />
+                  </label>
+                  <p className="text-xs text-gray-500 mt-3">
+                    PNG, JPG, GIF up to 5MB
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={newProduct.name}
+              onChange={handleInputChange}
+              className="border border-gray-300 rounded p-2"
+              required
+            />
+            <label htmlFor="price">Price:</label>
+            <input
+              type="number"
+              id="price"
+              name="price"
+              value={newProduct.price || ""}
+              onChange={handleInputChange}
+              min="0"
+              step="0.01"
+              className="border border-gray-300 rounded p-2"
+              required
+            />
+            <label htmlFor="stock">Stock:</label>
+            <input
+              type="number"
+              id="stock"
+              name="stock"
+              value={newProduct.stock || ""}
+              onChange={handleInputChange}
+              min="0"
+              className="border border-gray-300 rounded p-2"
+              required
+            />
+            <label htmlFor="category">Category:</label>
+            <select
+              id="category"
+              name="category"
+              className="border border-gray-300 rounded p-2 bg-white"
+              value={newProduct.category}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="" disabled className="text-gray-400">
+                Select a category
+              </option>
+              <option value="Electronics">Electronics</option>
+              <option value="Clothing">Clothing</option>
+            </select>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded"
+            >
+              Add Product
+            </button>
+          </form>
         </div>
       </div>
     </div>
